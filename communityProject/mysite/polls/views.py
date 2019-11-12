@@ -1,22 +1,14 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .session_services import *
+from django.http import HttpResponse, JsonResponse
+from .services import *
 
 # Create your views here.
-def login(request):
-    return HttpResponse(SessionService.login("hellow"))
-# def index(request):
-#     return HttpResponse("Hello, world. You're at the polls index.")
-#
-# def detail(request, community_name):
-#     return HttpResponse("You're looking at community %s." % community_name)
-#
-# def results(request, community_name):
-#     response = "You're looking at the results of community %s."
-#     return HttpResponse(response % community_name)
-#
-# def vote(request, community_name):
-#     return HttpResponse("You're voting on community %s." % community_name)
+def index(request):
+    communityList = Community.objects.all()  # quering all Communities
+    return render(request, "index.html", {"communityList": communityList})
 
+def getCommunity(request,community_id):
+    data = list(CommunityService.getCommunity(community_id))
+    return JsonResponse(data, safe=False)
 
 

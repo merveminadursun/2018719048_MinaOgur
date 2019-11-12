@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Community - Be together!</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<div django-app="TaskManager">
+    <div class="all" id="all">
+        <div class="header" id="header">
+            <div class="header_inner">
+                <table border="0" class="toptable" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td class="bottom" style="width: 100px;"></td>
+                        <td class="midlle2">
+                            <table border="0" class="toptable" cellpadding="0" cellspacing="0" id="toptable_navi"
+                                   class="toptable_navi" width="100%">
+                                <tbody>
+                                <tr>
+                                    <td class="topnavi">
+                                        <span class="searchcontainer" onmouseover="deactivateTopMenu();" >
+                                            <nobr>
+                                                <input type="text" placeholder="Search" class="search" width="100%" >
+                                                <img src="{% static 'images/searchicon.png' %}" id="searchicon"
+                                                     class="searchicon" style="opacity: 0.3;">
+                                            </nobr>
+                                        </span>
+                                    </td>
+                                    <td class="topnavi">
+                                        <a href="" onclick="newLogin();">
+                                            <nobr>Login</nobr>
+                                        </a>
+                                    </td>
+                                    <td class="topnavi">
+                                        <a href="" onclick="getAccount();">
+                                            <nobr>Sign Up</nobr>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+<!--	<div class="container">-->
+<!--            <div class="content">-->
+<!--            <h1>Community</h1>-->
+<!--            <p class="tagline">a Django Community app</p>-->
+<!--            <form action="" method="post">-->
+<!--            {% csrf_token %} &lt;!&ndash; csrf token for basic security &ndash;&gt;-->
+<!--                <div class="inputContainer">-->
+<!--                    <input type="text" id="description" class="taskName" placeholder="What do you need to do?" name="description" required>-->
+<!--                    <label for="description">Description</label>-->
+<!--                </div>-->
+<!--                <div class="inputContainer half last">-->
+<!--                    <i class="fa fa-caret-down selectArrow"></i>-->
+<!--                    <select id="category" class="taskCategory" name="category_select">-->
+<!--                    <option class="disabled" value="">Choose a category</option>-->
+<!--                    {% for category in categories %}-->
+<!--                        <option class="" value="{{ category.name }}" name="{{ category.name }}">{{ category.name }}</option>-->
+<!--                    {% endfor %}-->
+<!--                    </select>-->
+<!--                    <label for="category">Category</label>-->
+<!--                </div>-->
+<!--                <div class="inputContainer half last right">-->
+<!--                    <input type="date" id="dueDate" class="taskDate" name="date">-->
+<!--                    <label for="dueDate">Due Date</label>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <button class="taskAdd" name="taskAdd" type="submit"><i class="fa fa-plus icon"></i>Add task</button>-->
+<!--                    <button class="taskDelete" name="taskDelete" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Tasks</button>-->
+<!--                </div>-->
+
+
+<!--            <ul  class="taskList">-->
+<!--            {% for todo in todos %} &lt;!&ndash; django template lang - for loop &ndash;&gt;-->
+<!--                <li class="taskItem">-->
+<!--                    <input type="checkbox" class="taskCheckbox" name="checkedbox" id="{{ todo.id }}" value="{{ todo.id }}">-->
+<!--                    <label for="{{ todo.id }}"><span class="complete-">{{ todo.title }}</span></label>-->
+<!--                    <span class="category-{{ todo.category }}">{{ todo.category }}</span>-->
+<!--                    <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.created }} - {{ todo.due_date }}</strong>-->
+<!--                </li>-->
+<!--            {% endfor %}-->
+
+
+<!--            </ul>&lt;!&ndash; taskList &ndash;&gt;-->
+<!--            </form>-->
+<!--            </div>&lt;!&ndash; content &ndash;&gt;-->
+
+<!-- </div>&lt;!&ndash; container &ndash;&gt;-->
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</body>
+</html>
