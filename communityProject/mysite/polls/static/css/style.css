@@ -1459,7 +1459,7 @@ span.searchcontainer {
 
 input.search {
 	padding: 7px;
-	width: 150px;
+	width: 80%;
 	color: #bbb;
 	border: 0;
 	background: #000;
@@ -3933,7 +3933,7 @@ div.imgtarget {
 }
 
 img.header_logo {
-	height: 35px
+	height: 70px
 }
 
 select {
