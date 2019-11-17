@@ -143,6 +143,10 @@ body {
 .comDetail {
     background-color: aliceblue;
 }
+
+.newCommunity {
+    background-color: inherit;
+}
 /*--- media queries ---*/
 
 @media (max-width: 575.98px) {

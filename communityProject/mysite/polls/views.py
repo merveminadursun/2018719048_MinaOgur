@@ -1,13 +1,13 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from .services import *
 import json
+import datetime
 
 
 # Create your views here.
 def index(request):
-    print("hello")
     communityList = Community.objects.all()  # quering all Communities
     return render(request, "index.html", {"communityList": communityList})
 
@@ -22,8 +22,28 @@ def signup(request):
     usr.save()
     return HttpResponse(usr.pk)
 
+@csrf_exempt
 def newCommunity(request):
-    return HttpResponseRedirect("{% static 'templates/newCommunity.html' %}")
+    if request.method == "POST":
+        cmn = Community()
+        cmn.community_name = request.POST.get("com_name", "")
+        cmn.community_desc = request.POST.get("com_description", "")
+        cmn.create_date    = timezone.now()
+        cmn.owner_id       = 1
+        join_allowed       = request.POST.get("com_joinallow", "")
+        if join_allowed == 'on':
+            cmn.join_allowed = True
+        else:
+            cmn.join_allowed = False
+        newdt_allowed      = request.POST.get("com_editdtallow", "")
+        if newdt_allowed == 'on' :
+            cmn.newdt_allowed = True
+        else:
+            newdt_allowed = False
+        cmn.save()
+        return HttpResponse(cmn.pk)
+    else:
+        return render(request, "newCommunity.html", {})
 
 def login(request, id):
     data = list(UserService.login(id))

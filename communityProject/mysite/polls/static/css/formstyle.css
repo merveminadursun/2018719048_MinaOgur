@@ -1,0 +1,26 @@
+.toggle.ios, .toggle-on.ios, .toggle-off.ios {
+    border-radius: 20px;
+}
+
+.toggle.ios .toggle-handle {
+    border-radius: 20px;
+}
+
+.form-control {
+    background-color: inherit;
+    border: inherit;
+    height: inherit;
+}
+
+.floatLabel {
+    border-radius: 7px;
+    width: 100%;
+}
+
+label {
+    color: #cccccc;
+}
+
+h2, h3 {
+    color: #cccccc;
+}
