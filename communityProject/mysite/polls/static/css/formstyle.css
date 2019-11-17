@@ -17,10 +17,52 @@
     width: 100%;
 }
 
+.floatLabel_dt {
+    border-radius: 7px;
+    width: 100%;
+    height: 30px;
+}
+
 label {
     color: #cccccc;
 }
 
 h2, h3 {
     color: #cccccc;
+}
+
+.addDataField {
+    background-color: inherit;
+}
+
+.addfields {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: black thin solid;
+}
+
+.mymodalinner {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
+.myFieldContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    background: inherit;
+    padding: 10px 0;
+}
+
+.modal-content {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.addDataType {
+    border-radius: 7px;
+    border: #646464;
 }

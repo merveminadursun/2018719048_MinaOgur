@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from enum import Enum
 from django.forms import ModelForm
+from django.contrib.postgres.fields import JSONField
+
 
 # Create your models here.
 
@@ -10,9 +12,10 @@ class UserRole(models.Model):
     roledesc = models.CharField(max_length=20)
 
     def __str__(self):
-        return "%s" %(self.roledesc)
+        return "%s" % (self.roledesc)
 
-class Gender(Enum):   # A subclass of Enum
+
+class Gender(Enum):  # A subclass of Enum
     F = "Female"
     M = "Male"
 
@@ -25,12 +28,13 @@ class User(models.Model):
     username = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50, default="")
     last_name = models.CharField(max_length=50, default="")
-    role = models.ForeignKey(UserRole,  on_delete=models.CASCADE)
+    role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     location = models.CharField(max_length=140)
-    gender = models.CharField(max_length=1, choices=[(tag.name, tag.value) for tag in Gender] )
+    gender = models.CharField(max_length=1, choices=[(tag.name, tag.value) for tag in Gender])
     password = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
     profile_picture = models.ImageField(upload_to='thumbpath', blank=True)
+
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
@@ -39,6 +43,7 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = '__all__'
+
 
 class Community(models.Model):
     community_name = models.CharField(max_length=100)
@@ -63,9 +68,11 @@ class CommunityFollower(models.Model):
     # If a user wants to join a community, if Community.join_allowed equals to false
     # firstly owner of the community should approve this join request.
 
+
 class CommunityTag(models.Model):
     tag_desc = models.CharField(max_length=100)
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+
 
 class FormField(models.Model):
     # Constants for generic string types
@@ -107,12 +114,16 @@ class DataType(models.Model):
     owner = models.ForeignKey(User, default="", on_delete=models.CASCADE)
     fields = models.ManyToManyField(FormField)
     # todo filter form fields based on data type's community.
+    formfields = JSONField(default="{}")
+
     def __str__(self):
         return self.data_type_name
+
 
 class UserBuilderRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
     # If a user want to be a community builder,
     # admin approval is needed.
+
 
