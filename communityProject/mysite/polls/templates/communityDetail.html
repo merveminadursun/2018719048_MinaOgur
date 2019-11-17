@@ -17,6 +17,7 @@
 
 </head>
 <body>
+
 <nav class="navbar navbar-expand-md">
     <a class="navbar-brand" href="#">Community</a>
     <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -36,46 +37,56 @@
         </ul>
     </div>
 </nav>
-<header class="page-header header container-fluid">
-    <div class="overlay"></div>
-    <div class="description" id="communityListDiv">
-        <h1>Welcome to Community!</h1>
-        <p>Come and join us!</p>
-    </div>
-</header>
+
 <main>
-    <div class="container features">
-        <div class="row">
-            {% if communityList %}
-            {% for Community in communityList %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h1 class="commHeader">{{ Community.community_name}}</h1>
-                        <p class="card-text">{{Community.community_desc}}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <a href="community/{{ Community.id }}" class="btnCommView">
-                                        View
-                                    </a>
-                                </button>
+    <div class="container comDetail">
+        <h1>{{ communityDetail.community_name }}</h1>
+        <h2>{{ communityDetail.community_desc }}</h2>
+        <button id="newDataType">Add data type!</button>
+
+        <div id="myNew" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container features">
+            <div class="row">
+                {% if communityDataTypes %}
+                {% for DataTypes in communityDataTypes %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h1 class="commHeader">{{ DataTypes.data_type_name }}</h1>
+                            <p class="card-text">{{ DataTypes.data_type_desc }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+
+                                </div>
                             </div>
-                            <small class="text-muted">{{Community.create_date}}</small>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+                {% endif %}
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
     </div>
-    <div style="position: relative; bottom: 20px; text-align: center; font-size: x-large;">
-        <button>
-             <a href="newCommunity">
-             </a> New Community!</button>
-    </div>
 </main>
+
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -85,6 +96,7 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<script src="{% static 'controller/index.js' %}"></script>
+<script src="{% static 'controller/communityDetail.js' %}"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from .services import *
 import json
 
@@ -22,13 +22,19 @@ def signup(request):
     usr.save()
     return HttpResponse(usr.pk)
 
+def newCommunity(request):
+    return HttpResponseRedirect("{% static 'templates/newCommunity.html' %}")
+
 def login(request, id):
     data = list(UserService.login(id))
     return JsonResponse(data,safe=False)
 
-def getCommunity(request,url):
-    data = list(CommunityService.getCommunity(url))
-    return JsonResponse(data, safe=False)
+def getCommunity(request,id):
+    communityDetail = get_object_or_404(Community, pk=id)
+    communityDataTypes = DataType.objects.filter(community=id)
+    return render(request, "communityDetail.html", {"communityDetail": communityDetail,
+                                                    "communityDataTypes": communityDataTypes })
+
 
 def getCommunityMembers(request,url):
     data = list(CommunityService.getCommunityMembers(url))

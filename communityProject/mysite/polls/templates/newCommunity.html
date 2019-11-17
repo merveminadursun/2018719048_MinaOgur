@@ -17,6 +17,7 @@
 
 </head>
 <body>
+
 <nav class="navbar navbar-expand-md">
     <a class="navbar-brand" href="#">Community</a>
     <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -36,46 +37,21 @@
         </ul>
     </div>
 </nav>
-<header class="page-header header container-fluid">
-    <div class="overlay"></div>
-    <div class="description" id="communityListDiv">
-        <h1>Welcome to Community!</h1>
-        <p>Come and join us!</p>
-    </div>
-</header>
+
 <main>
-    <div class="container features">
-        <div class="row">
-            {% if communityList %}
-            {% for Community in communityList %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h1 class="commHeader">{{ Community.community_name}}</h1>
-                        <p class="card-text">{{Community.community_desc}}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <a href="community/{{ Community.id }}" class="btnCommView">
-                                        View
-                                    </a>
-                                </button>
-                            </div>
-                            <small class="text-muted">{{Community.create_date}}</small>
-                        </div>
-                    </div>
-                </div>
+
+    <form>
+        <div class="form-group">
+            <h2>New Community!</h2>
+            <div class="form-control">
+                <input type="text" id="name" class="floatLabel" name="name">
+                <label for="name">Name</label>
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
-    </div>
-    <div style="position: relative; bottom: 20px; text-align: center; font-size: x-large;">
-        <button>
-             <a href="newCommunity">
-             </a> New Community!</button>
-    </div>
+    </form>
+
 </main>
+
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -85,6 +61,7 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-<script src="{% static 'controller/index.js' %}"></script>
+<script src="{% static 'controller/communityDetail.js' %}"></script>
 </body>
+
 </html>
