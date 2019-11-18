@@ -45,7 +45,7 @@
 
     <div class="container newCommunity">
         <h2>New Community</h2>
-        <form action="" method="POST">
+        <form action="" method="POST"> {% csrf_token %}
             <div class="form-group">
                 <label for="com_name">Community Title</label>
                 <input type="text" id="com_name" class="floatLabel" name="com_name" width="100%">
@@ -67,117 +67,8 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Submit" class="btnAddCommunity">
-                <!--                    <button id="addNewCommunity"><a href="">Save!</a></button>-->
             </div>
-{#            <h2>Add Data Types</h2>#}
-{#            <h3>You can add a new data types to your community!</h3>#}
-{#            <div class="form-group">#}
-{#                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">#}
-{#                    New Data Type#}
-{#                </button>#}
-{#                <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"#}
-{#                     aria-labelledby="myLargeModalLabel" aria-hidden="true">#}
-{#                    <div class="modal-dialog modal-lg">#}
-{#                        <div class="modal-content">#}
-{#                            <div class="mymodalinner">#}
-{#                                <form>#}
-{#                                    <h2 class="formh">Data Type</h2>#}
-{#                                    <div class="form-group">#}
-{#                                        <label for="dt_name" class="formh">Data Type Title</label>#}
-{#                                        <input type="text" id="dt_name" class="floatLabel" name="dt_name" width="100%">#}
-{#                                    </div>#}
-{#                                    <div class="form-group">#}
-{#                                        <label for="dt_description">Data Type Description</label>#}
-{#                                        <textarea type="text" id="dt_description" class="floatLabel"#}
-{#                                                  name="dt_description"#}
-{#                                                  rows="3"></textarea>#}
-{#                                    </div>#}
-{#                                    <div class="addfields">#}
-{#                                        <table class="table" id="myTable">#}
-{#                                            <thead>#}
-{#                                            <tr>#}
-{#                                                <th scope="col">Field Label</th>#}
-{#                                                <th scope="col">Field Type</th>#}
-{#                                                <th scope="col">Is Required?</th>#}
-{#                                                <th scope="col"></th>#}
-{#                                            </tr>#}
-{#                                            </thead>#}
-{#                                            <tbody>#}
-{#                                            <tr>#}
-{#                                                <th scope="row">#}
-{#                                                    <input type="text" id="dt_fieldlabel" class="floatLabel_dt"#}
-{#                                                           name="dt_fieldlabel">#}
-{#                                                </th>#}
-{#                                                <td>#}
-{#                                                    <select class="mdb-select md-form floatLabel_dt">#}
-{#                                                        <option value="" disabled selected>Choose your option</option>#}
-{#                                                        <option value="TE">Text field</option>#}
-{#                                                        <option value="TA">Text area</option>#}
-{#                                                        <option value="DA">Date</option>#}
-{#                                                        <option value="TI">Time</option>#}
-{#                                                        <option value="IN">Integer</option>#}
-{#                                                        <option value="DE">Decimal</option>#}
-{#                                                        <option value="IM">Image</option>#}
-{#                                                        <option value="VI">Video</option>#}
-{#                                                        <option value="AU">Audio</option>#}
-{#                                                        <option value="UR">URI</option>#}
-{#                                                        <option value="LO">Location</option>#}
-{#                                                    </select>#}
-{#                                                </td>#}
-{#                                                <td>#}
-{#                                                    <input type="checkbox" checked="true" data-toggle="toggle"#}
-{#                                                           data-style="ios"#}
-{#                                                           id="dt_fieldrequire" name="dt_fieldrequire"#}
-{#                                                           data-onstyle="success">#}
-{##}
-{#                                                </td>#}
-{#                                                <td>#}
-{#                                                    <button type="button" class="btn addDataField"#}
-{#                                                            id="addDataField"><span#}
-{#                                                            class="glyphicon glyphicon-plus"> </span></button>#}
-                                                    {#                                                    <input type="button" class="btn btn-lg btn-block " id="addDataField"#}
-                                                    {#                                                           value="Add Row"/>#}
-{#                                                </td>#}
-{#                                            </tr>#}
-{#                                            </tbody>#}
-{#                                        </table>#}
-{#                                    </div>#}
-{#                                    <div class="mymodalinner" style="align-content: center">#}
-{#                                        <button type="button" class="btn addDataType" id="addDataType">#}
-{#                                            Add Data Type#}
-{#                                        </button>#}
-{#                                    </div>#}
-{#                                </form>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
         </form>
-
-        <div class="container features">
-            <div class="row">
-                <div class="col-md-4">
-{#                    <div class="card mb-4 shadow-sm">#}
-{#                        <div class="card-body">#}
-{#                            <h1 class="commHeader">AAAAA</h1>#}
-{#                            <p class="card-text">BBBB</p>#}
-{#                            <div class="d-flex justify-content-between align-items-center">#}
-{#                                <div class="btn-group">#}
-{#                                    <button type="button" class="btn btn-sm btn-outline-secondary">#}
-{#                                        <a href="community/{{ Community.id }}" class="btnCommView">#}
-{#                                            View#}
-{#                                        </a>#}
-{#                                    </button>#}
-{#                                </div>#}
-{#                                <small class="text-muted">CCCCC</small>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-                </div>
-
-            </div>
-        </div>
     </div>
 </main>
 

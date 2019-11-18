@@ -45,6 +45,12 @@ def newCommunity(request):
     else:
         return render(request, "newCommunity.html", {})
 
+@csrf_exempt
+def newDataType(request):
+    if request.method == "POST":
+        fieldJson = request.session.get('fieldJson')
+        return JsonResponse(fieldJson)
+
 def login(request, id):
     data = list(UserService.login(id))
     return JsonResponse(data,safe=False)

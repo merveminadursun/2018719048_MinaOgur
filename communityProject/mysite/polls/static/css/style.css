@@ -141,7 +141,16 @@ body {
 }
 
 .comDetail {
-    background-color: aliceblue;
+    background-color: inherit;
+}
+
+h1, h2, h3 {
+    color: #cccccc;
+}
+
+.addDataType {
+    border-radius: 7px;
+    border: #646464;
 }
 
 .newCommunity {

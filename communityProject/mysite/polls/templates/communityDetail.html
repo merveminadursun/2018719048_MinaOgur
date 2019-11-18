@@ -14,9 +14,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/formstyle.css' %}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
+
+<script>
+    var fieldJson = '{ "theFields" : [] }';
+</script>
 
 <nav class="navbar navbar-expand-md">
     <a class="navbar-brand" href="#">Community</a>
@@ -39,10 +47,93 @@
 </nav>
 
 <main>
-    <div class="container comDetail">
-        <h1>{{ communityDetail.community_name }}</h1>
-        <h2>{{ communityDetail.community_desc }}</h2>
-        <button id="newDataType">Add data type!</button>
+    <div class="container newCommunity">
+        <h2>{{ communityDetail.community_name }}</h2>
+        <h3>{{ communityDetail.community_desc }}</h3>
+        {#        <button id="newDataType" class="addDataType" >Add data type!</button>#}
+
+        {#    Begin of Data Type Adding #}
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+                New Data Type
+            </button>
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="mymodalinner">
+                            <form method="POST" action="newDataType/"> {% csrf_token %}
+                                <h2 class="formh">Data Type</h2>
+                                <div class="form-group">
+                                    <label for="dt_name" class="formh">Data Type Title</label>
+                                    <input type="text" id="dt_name" class="floatLabel" name="dt_name" width="100%">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dt_description">Data Type Description</label>
+                                    <textarea type="text" id="dt_description" class="floatLabel"
+                                              name="dt_description"
+                                              rows="3"></textarea>
+                                </div>
+                                <div class="addfields">
+                                    <table class="table" id="myTable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Field Label</th>
+                                            <th scope="col">Field Type</th>
+                                            <th scope="col">Is Required?</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">
+                                                <input type="text" id="dt_fieldlabel" class="floatLabel_dt"
+                                                       name="dt_fieldlabel">
+                                            </th>
+                                            <td>
+                                                <select class="mdb-select md-form floatLabel_dt" name="dt_fieldtype">
+                                                    <option value="" disabled selected>Choose your option</option>
+                                                    <option value="TE">Text field</option>
+                                                    <option value="TA">Text area</option>
+                                                    <option value="DA">Date</option>
+                                                    <option value="TI">Time</option>
+                                                    <option value="IN">Integer</option>
+                                                    <option value="DE">Decimal</option>
+                                                    <option value="IM">Image</option>
+                                                    <option value="VI">Video</option>
+                                                    <option value="AU">Audio</option>
+                                                    <option value="UR">URI</option>
+                                                    <option value="LO">Location</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="checkbox" checked="true" data-toggle="toggle"
+                                                       data-style="ios"
+                                                       id="dt_fieldrequire" name="dt_fieldrequire"
+                                                       data-onstyle="success">
+
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn addDataField"
+                                                        id="addDataField"><span
+                                                        class="glyphicon glyphicon-plus"> </span></button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mymodalinner" style="align-content: center">
+                                    <button type="submit" class="btn addDataType" id="addDataType">
+                                        Add Data Type
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#    End of Data Type Adding #}
 
         <div id="myNew" class="modal fade" role="dialog">
             <div class="modal-dialog">
@@ -66,21 +157,20 @@
         <div class="container features">
             <div class="row">
                 {% if communityDataTypes %}
-                {% for DataTypes in communityDataTypes %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h1 class="commHeader">{{ DataTypes.data_type_name }}</h1>
-                            <p class="card-text">{{ DataTypes.data_type_desc }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-
+                    {% for DataTypes in communityDataTypes %}
+                        <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                                <div class="card-body">
+                                    <h1 class="commHeader">{{ DataTypes.data_type_name }}</h1>
+                                    <p class="card-text">{{ DataTypes.data_type_desc }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
                 {% endif %}
             </div>
         </div>
