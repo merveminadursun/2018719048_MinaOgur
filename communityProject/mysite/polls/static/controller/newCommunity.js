@@ -3,10 +3,9 @@ var formFieldsJson = {
     "fieldtype"  : "",
     "isRequired" : "",
     "fieldvalue" : ""
-}
-var datatypeFields = []
+};
+var datatypeFields = [];
 
-var dtTitle = selam
 $(document).ready(function () {
     var counter = 0;
 
