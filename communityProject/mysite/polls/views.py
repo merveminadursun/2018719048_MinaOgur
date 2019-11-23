@@ -44,7 +44,8 @@ def newCommunity(request):
         else:
             newdt_allowed = False
         cmn.save()
-        return HttpResponse(cmn.pk)
+        # return HttpResponse(cmn.pk)
+        return redirect("/")
     else:
         return render(request, "newCommunity.html", {})
 
