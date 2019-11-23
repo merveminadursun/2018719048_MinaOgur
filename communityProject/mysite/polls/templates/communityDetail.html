@@ -58,7 +58,9 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="mymodalinner">
-                            <form method="POST" action=""> {% csrf_token %}
+                            <form method="POST" action="/eleman"> {% csrf_token %}
+                                <input hidden value="" name="fieldJson" id="eleman">
+                                </input>
                                 <h2 class="formh">Data Type</h2>
                                 <div class="form-group">
                                     <label for="dt_name" class="formh">Data Type Title</label>

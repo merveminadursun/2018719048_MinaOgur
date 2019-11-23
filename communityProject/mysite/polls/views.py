@@ -48,8 +48,15 @@ def newCommunity(request):
 @csrf_exempt
 def newDataType(request):
     if request.method == "POST":
-        fieldJson = request.session.get('fieldJson')
-        return JsonResponse(fieldJson)
+        fieldJson = request.POST.get('fieldJson')
+        dt = DataType()
+        dt.community      = Community.objects.get(pk = 1)
+        dt.data_type_name = request.POST.get("dt_name", "")
+        dt.data_type_desc = request.POST.get("dt_description", "")
+        dt.owner          = User.objects.get(pk = 1)
+        dt.formfields     = fieldJson
+        dt.save()
+        return HttpResponse(dt.pk)
 
 def login(request, id):
     data = list(UserService.login(id))

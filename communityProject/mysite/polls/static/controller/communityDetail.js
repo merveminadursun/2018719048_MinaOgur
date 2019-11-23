@@ -26,8 +26,6 @@ $(document).ready(function () {
         cols += '<th>' + document.getElementById("myTable").rows[1].cells[0].children[0].value + '</th>'
         cols += '<td>' + fieldTypesSel + '</td>'
         cols += '<td>' + isRequired + '</td>'
-        // cols += '<td><input type="text" class="form-control" name="dt_fieldtype' + counter + '"/></td>';
-        // cols += '<td><input type="text" class="form-control" name="dt_fieldrequire' + counter + '"/></td>';
 
         cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
         newRow.append(cols);
@@ -46,7 +44,6 @@ $(document).ready(function () {
             "isRequired": document.getElementById("dt_fieldrequire").checked
         });
         fieldJson = JSON.stringify(obj);
-
         console.log(fieldJson)
 
     });
@@ -58,8 +55,7 @@ $(document).ready(function () {
     });
 
     $("#addDataType").on("click", function () {
-
-
+         $("#eleman").val(fieldJson);
     });
 
 });
