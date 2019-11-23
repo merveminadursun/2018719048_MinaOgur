@@ -49,8 +49,9 @@ def newCommunity(request):
 def newDataType(request):
     if request.method == "POST":
         fieldJson = request.POST.get('fieldJson')
+        communityId = request.POST.get("communityId", "")
         dt = DataType()
-        dt.community      = Community.objects.get(pk = 1)
+        dt.community      = Community.objects.get(pk = communityId)
         dt.data_type_name = request.POST.get("dt_name", "")
         dt.data_type_desc = request.POST.get("dt_description", "")
         dt.owner          = User.objects.get(pk = 1)

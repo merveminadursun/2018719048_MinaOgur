@@ -55,7 +55,15 @@ $(document).ready(function () {
     });
 
     $("#addDataType").on("click", function () {
-         $("#eleman").val(fieldJson);
+
+
+         var aarr = window.location.href.split('/');
+        //get last value
+        var id = aarr[aarr.length -1];
+         $("#communityId").val(id)
+
+
+        $("#eleman").val(fieldJson);
     });
 
 });
