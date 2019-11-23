@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('community/<id>', views.getCommunity, name="communityDetail"),
     path('newCommunity/', views.newCommunity,  name='index'),
-    path('newDataType/', views.newDataType),
+    path('', views.newDataType),
     path('login/<id>/', views.login),
     path('signup/', views.signup),
     path('c/<url>/', include([

@@ -39,9 +39,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Sign Up</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Contact</a>
-            </li>
         </ul>
     </div>
 </nav>
@@ -50,7 +47,6 @@
     <div class="container newCommunity">
         <h2>{{ communityDetail.community_name }}</h2>
         <h3>{{ communityDetail.community_desc }}</h3>
-        {#        <button id="newDataType" class="addDataType" >Add data type!</button>#}
 
         {#    Begin of Data Type Adding #}
         <div class="form-group">
@@ -62,7 +58,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="mymodalinner">
-                            <form method="POST" action="newDataType/"> {% csrf_token %}
+                            <form method="POST" action=""> {% csrf_token %}
                                 <h2 class="formh">Data Type</h2>
                                 <div class="form-group">
                                     <label for="dt_name" class="formh">Data Type Title</label>
@@ -111,7 +107,6 @@
                                                        data-style="ios"
                                                        id="dt_fieldrequire" name="dt_fieldrequire"
                                                        data-onstyle="success">
-
                                             </td>
                                             <td>
                                                 <button type="button" class="btn addDataField"
@@ -159,7 +154,7 @@
                 {% if communityDataTypes %}
                     {% for DataTypes in communityDataTypes %}
                         <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
+                            <div class="card mb-4 shadow-sm" >
                                 <div class="card-body">
                                     <h1 class="commHeader">{{ DataTypes.data_type_name }}</h1>
                                     <p class="card-text">{{ DataTypes.data_type_desc }}</p>
