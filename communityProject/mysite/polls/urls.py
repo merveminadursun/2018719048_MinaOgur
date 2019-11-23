@@ -8,6 +8,7 @@ urlpatterns = [
     path('community/<id>', views.getCommunity, name="communityDetail"),
     path('newCommunity/', views.newCommunity,  name='index'),
     path('eleman', views.newDataType),
+    path('deactivateCommunity', views.deactivateCommunity),
     path('login/<id>/', views.login),
     path('signup/', views.signup),
     path('c/<url>/', include([

@@ -1,3 +1,26 @@
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+var csrftoken = getCookie('csrftoken');
+
 $('#newDataType').on('click', function (e) {
 
     //your awesome code here
@@ -9,6 +32,8 @@ var formFieldsJson = {
     "fieldvalue": ""
 };
 var datatypeFields = [];
+
+var communityId = "";
 
 $(document).ready(function () {
     var counter = 0;
@@ -56,14 +81,42 @@ $(document).ready(function () {
 
     $("#addDataType").on("click", function () {
 
-
-         var aarr = window.location.href.split('/');
+        var aarr = window.location.href.split('/');
         //get last value
-        var id = aarr[aarr.length -1];
-         $("#communityId").val(id)
+        communityId = aarr[aarr.length - 1];
+        $("#communityId").val(communityId)
 
 
         $("#eleman").val(fieldJson);
     });
 
 });
+
+
+$("#deactivateCom").click(function () {
+
+    var csrftoken = getCookie('csrftoken');
+
+    console.log(csrftoken);
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    var aarr = window.location.href.split('/');
+    //get last value
+    communityId = aarr[aarr.length - 1];
+    jQuery.ajax({
+        type: "POST", url: "/deactivateCommunity",
+        data: { "communityId" : communityId },
+        success:
+            function (result) {
+                $('#confirmDeactivation').modal('hide');
+                window.location.href = "/";
+            }
+    });
+});
+
