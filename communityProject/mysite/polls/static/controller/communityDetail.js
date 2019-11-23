@@ -85,9 +85,8 @@ $(document).ready(function () {
         //get last value
         communityId = aarr[aarr.length - 1];
         $("#communityId").val(communityId)
-
-
         $("#eleman").val(fieldJson);
+
     });
 
 });

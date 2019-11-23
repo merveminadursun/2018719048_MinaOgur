@@ -62,7 +62,8 @@ def newDataType(request):
         dt.owner = User.objects.get(pk=1)
         dt.formfields = fieldJson
         dt.save()
-        return HttpResponse(dt.pk)
+            # return HttpResponse(dt.pk)
+        return redirect('/community/' + communityId)
 
 
 @csrf_exempt
