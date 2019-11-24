@@ -6,7 +6,7 @@ function onLoad() {
             var myFormFields = JSON.parse(formFields[0].fields.formfields);
             if (myFormFields.theFields !== undefined) {
                 var fields = myFormFields.theFields;
-                
+
                 var form = document.getElementById("postForm");
 
                 for (var i = 0; i < fields.length; i++) {
@@ -30,6 +30,18 @@ function onLoad() {
                     container.append(input);
                     form.appendChild(container);
                 }
+
+                container = document.createElement("div");
+                container.className = "form-group";
+
+                var input = document.createElement("input");
+                input.type = "submit";
+                input.value = "Post it!";
+                input.className = "btnNewPost";
+                input.id = "newPostBtn";
+
+                container.append(input);
+                form.appendChild(container);
 
 
             }

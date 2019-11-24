@@ -192,6 +192,14 @@ h1, h2, h3 {
 	font-weight: bold;
 }
 
+.btnNewPost {
+	border-radius: 7px;
+	width: 25%;
+    height: 1cm;
+	background-color: #cccccc;
+	color: #646464;
+	font-weight: bold;
+}
 
 .miniBtn {
  	background-color: inherit;
