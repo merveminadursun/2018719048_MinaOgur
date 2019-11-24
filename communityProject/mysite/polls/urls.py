@@ -18,7 +18,5 @@ urlpatterns = [
         path('datafields/', views.getCommunityDataFields)
     ])
     ),
-    path('tags', views.tags),
-    path('tag_deneme1', views.tags),
-    path('tag_deneme2', views.tags)
+    path('tags', views.tags)
 ]

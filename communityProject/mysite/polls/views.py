@@ -105,16 +105,3 @@ def tags(request):
     query = request.POST.get("query","")
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)
-
-
-@csrf_exempt
-def tag_deneme1(request):
-    query = request.POST.get("query","")
-    data = WikidataService.query1(query)
-    return JsonResponse(data, safe=False)
-
-@csrf_exempt
-def tag_deneme2(request):
-    query = request.POST.get("query","")
-    data = WikidataService.query1(query)
-    return JsonResponse(data, safe=False)

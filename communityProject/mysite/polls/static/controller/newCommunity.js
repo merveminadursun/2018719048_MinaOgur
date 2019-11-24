@@ -1,15 +1,44 @@
-$("#com_name").keyup(function (event) {
-    debugger;
-    if (event.keyCode === 13) {
-        var text = "test successful";
+$('#com_name').keypress(function (event) {
+    event.preventDefault();
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+        jQuery.ajax({
+            type: "POST", url: "/tags",
+            data: {"query": $('#com_name').val()},
+            success:
+                function (result) {
+                    tagValue = "";
+                    console.log(result);
+                    if (result.results !== undefined) {
+                        if (result.results.bindings !== undefined && result.results.bindings.length > 0) {
+                            var tag_cnt = 0;
+                            for (var i = 0; i < result.results.bindings.length; i++) {
+                                if (result.results.bindings[i].itemDescription !== undefined) {
+                                    if (!result.results.bindings[i].itemDescription.value.includes("disambiguation")) {
+                                        // if (i < result.results.bindings.length - 1) {
+                                        //     tagValue += result.results.bindings[i].itemDescription.value + ","
+                                        // } else {
+                                        //     tagValue += result.results.bindings[i].itemDescription.value
+                                        // }
+                                        tagValue = result.results.bindings[i].itemDescription.value
+                                        $('#com_tags').tagsinput('add', tagValue);
 
-        $.ajax({
-            type: "POST",
-            url: '{{ tags }}',
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}', text: text},
-            success: function callback(response) {
-                console.log(response);
-            }
+                                        // tag_cnt++;
+                                        // $('#com_tags').tagsinput('add', {
+                                        //     "value": tag_cnt,
+                                        //     "text": result.results.bindings[i].itemDescription.value
+                                        // });
+                                    }
+                                }
+
+                            }
+                            // console.log(tagValue)
+                            //  $('#com_tags').tagsinput(tagValue);
+
+                        }
+                    }
+                    // window.location.href = "/";
+                }
         });
     }
 });

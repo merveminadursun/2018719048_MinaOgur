@@ -10,61 +10,12 @@ class WikidataService:
         # send any sparql query to the wikidata query service and get full result back
         # here we use an example that counts the number of humans
         sparql_query = """
-        SELECT distinct ?item ?itemLabel ?itemDescription WHERE{  
+        SELECT distinct ?itemDescription WHERE{  
           ?item rdfs:label "%s"@en.  
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
         }
         """ % query
         return return_sparql_query_results(sparql_query)
-
-    def getItem(itemId):
-        item = get_entity_dict_from_api(itemId)
-        return item
-
-    def query1(query):
-        # send any sparql query to the wikidata query service and get full result back
-        # here we use an example that counts the number of humans
-        sparql_query = """
-        SELECT ?osmd ?keyId ?key_usage WHERE {
-         # has a key and a count, but without any descriptions
-        ?osmd osmdt:P16 ?keyId;
-        osmm:count_all ?key_usage.
-         FILTER NOT EXISTS { ?osmd schema:description []. }
-        }
-        ORDER BY DESC(?key_usage)
-        LIMIT 100
-        """ % query
-        return return_sparql_query_results(sparql_query)
-
-    def query2(query):
-        # send any sparql query to the wikidata query service and get full result back
-        # here we use an example that counts the number of humans
-        sparql_query = """
-        SELECT ?osmd ?id ?usage {
-          {
-            SELECT ?osmd ?id ?usage WHERE {
-              # an entity has a key ID and a usage count
-              ?osmd osmdt:P16 ?id;
-                    osmm:count_all ?usage.
-            }
-          }
-          UNION
-          {
-            SELECT ?osmd ?id ?usage WHERE {
-              # an entity has a tag ID and a tag usage count
-              ?osmd osmdt:P19 ?id;
-                    osmm:tag_count_all ?usage.
-            }
-          }
-        
-          # Only list those Entry IDs that have no descriptions
-          FILTER NOT EXISTS { ?osmd schema:description []. }
-        
-        # Limit to top 100 entries
-        } ORDER BY DESC(?usage) LIMIT 100
-        """ % query
-        return return_sparql_query_results(sparql_query)
-
 
 class UserService:
 
