@@ -99,3 +99,16 @@ def getCommunityDataTypes(request, url):
 def getCommunityDataFields(request, url):
     data = list(CommunityService.getCommunityDataFields(url))
     return JsonResponse(data, safe=False)
+
+@csrf_exempt
+def tags(request):
+    query = request.POST.get("query","")
+    data = WikidataService.query(query)
+    return JsonResponse(data, safe=False)
+
+
+@csrf_exempt
+def tag_deneme1(request):
+    query = request.POST.get("query","")
+    data = WikidataService.query1(query)
+    return JsonResponse(data, safe=False)

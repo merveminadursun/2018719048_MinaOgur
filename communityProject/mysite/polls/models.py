@@ -5,7 +5,6 @@ from enum import Enum
 from django.forms import ModelForm
 from django.contrib.postgres.fields import JSONField
 
-
 # Create your models here.
 
 class UserRole(models.Model):
@@ -14,15 +13,12 @@ class UserRole(models.Model):
     def __str__(self):
         return "%s" % (self.roledesc)
 
-
 class Gender(Enum):  # A subclass of Enum
     F = "Female"
     M = "Male"
-
     @classmethod
     def all(self):
         return [Gender.F, Gender.M]
-
 
 class User(models.Model):
     username = models.CharField(max_length=20)
@@ -60,7 +56,6 @@ class Community(models.Model):
     def was_published_recently(self):
         return self.create_date >= timezone.now() - datetime.timedelta(days=1)
 
-
 class CommunityFollower(models.Model):
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
     follower = models.ForeignKey(User, default="", on_delete=models.CASCADE)
@@ -72,6 +67,7 @@ class CommunityFollower(models.Model):
 class CommunityTag(models.Model):
     tag_desc = models.CharField(max_length=100)
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+    tag_info = JSONField(default="")
 
 
 class FormField(models.Model):
@@ -114,7 +110,7 @@ class DataType(models.Model):
     owner = models.ForeignKey(User, default="", on_delete=models.CASCADE)
     fields = models.ManyToManyField(FormField)
     # todo filter form fields based on data type's community.
-    formfields = JSONField(default="{}")
+    formfields = JSONField(default="")
 
     def __str__(self):
         return self.data_type_name

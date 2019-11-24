@@ -3,9 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="d2671578-260c-43b2-85ec-911b1631493b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/services.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/newCommunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/newCommunity.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/templates/newCommunity.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/newCommunity.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -102,7 +105,7 @@
       <workItem from="1574066304068" duration="1048000" />
       <workItem from="1574085485934" duration="6476000" />
       <workItem from="1574180328676" duration="1246000" />
-      <workItem from="1574506889284" duration="16287000" />
+      <workItem from="1574506889284" duration="22562000" />
     </task>
     <servers />
   </component>
