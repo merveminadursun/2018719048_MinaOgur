@@ -20,4 +20,5 @@ urlpatterns = [
     ),
     path('tags', views.tags),
     path('tag_deneme1', views.tags),
+    path('tag_deneme2', views.tags)
 ]

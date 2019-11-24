@@ -36,6 +36,35 @@ class WikidataService:
         """ % query
         return return_sparql_query_results(sparql_query)
 
+    def query2(query):
+        # send any sparql query to the wikidata query service and get full result back
+        # here we use an example that counts the number of humans
+        sparql_query = """
+        SELECT ?osmd ?id ?usage {
+          {
+            SELECT ?osmd ?id ?usage WHERE {
+              # an entity has a key ID and a usage count
+              ?osmd osmdt:P16 ?id;
+                    osmm:count_all ?usage.
+            }
+          }
+          UNION
+          {
+            SELECT ?osmd ?id ?usage WHERE {
+              # an entity has a tag ID and a tag usage count
+              ?osmd osmdt:P19 ?id;
+                    osmm:tag_count_all ?usage.
+            }
+          }
+        
+          # Only list those Entry IDs that have no descriptions
+          FILTER NOT EXISTS { ?osmd schema:description []. }
+        
+        # Limit to top 100 entries
+        } ORDER BY DESC(?usage) LIMIT 100
+        """ % query
+        return return_sparql_query_results(sparql_query)
+
 
 class UserService:
 
