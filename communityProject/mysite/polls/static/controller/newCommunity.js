@@ -22,11 +22,11 @@ $('#com_name').keypress(function (event) {
                                         tagValue = result.results.bindings[i].itemDescription.value
                                         $('#com_tags').tagsinput('add', tagValue);
 
-                                        var obj = JSON.parse(tagsJson);
-                                        obj['theTags'].push({
-                                            "tag": tagValue
-                                        });
-                                        tagsJson = JSON.stringify(obj);
+                                        // var obj = JSON.parse(tagsJson);
+                                        // obj['theTags'].push({
+                                        //     "tag": tagValue
+                                        // });
+                                        // tagsJson = JSON.stringify(obj);
                                     }
                                 }
                             }
@@ -37,6 +37,15 @@ $('#com_name').keypress(function (event) {
     }
 });
 $("#addCommunity").on("click", function () {
+    var tagList = $('#com_tags').tagsinput('items');
+
+    for (var i = 0; i < tagList.length; i++) {
+        var obj = JSON.parse(tagsJson);
+        obj['theTags'].push({
+            "tag": tagList[i]
+        });
+        tagsJson = JSON.stringify(obj);
+    }
     $("#communityTags").val(tagsJson);
 
 });

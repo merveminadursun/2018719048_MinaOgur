@@ -2,8 +2,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from .services import *
+from django.core import serializers
 import json
 import datetime
+from django.core.serializers.json import DjangoJSONEncoder
+
+
+class LazyEncoder(DjangoJSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, 'json'):
+            return str(obj)
+        return super().default(obj)
 
 
 # Create your views here.
@@ -68,7 +77,7 @@ def newDataType(request):
         dt.owner = User.objects.get(pk=1)
         dt.formfields = fieldJson
         dt.save()
-            # return HttpResponse(dt.pk)
+        # return HttpResponse(dt.pk)
         return redirect('/community/' + communityId)
 
 
@@ -80,6 +89,7 @@ def deactivateCommunity(request):
     community.save()
     return JsonResponse(communityId, safe=False)
 
+
 def login(request, id):
     data = list(UserService.login(id))
     return JsonResponse(data, safe=False)
@@ -88,8 +98,13 @@ def login(request, id):
 def getCommunity(request, id):
     communityDetail = get_object_or_404(Community, pk=id)
     communityDataTypes = DataType.objects.filter(community=id)
+    print(CommunityTag.objects.filter(community_id=id))
+    tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id).only("tag_info"))
+    communityTags = json.loads(tmpObj)
+    # communityTags = JsonResponse({"tags": json.dumps(CommunityTag.objects.filter(community_id=id))}, safe=False)
     return render(request, "communityDetail.html", {"communityDetail": communityDetail,
-                                                    "communityDataTypes": communityDataTypes})
+                                                    "communityDataTypes": communityDataTypes,
+                                                    "communityTags": communityTags})
 
 
 def getCommunityMembers(request, url):
@@ -106,8 +121,9 @@ def getCommunityDataFields(request, url):
     data = list(CommunityService.getCommunityDataFields(url))
     return JsonResponse(data, safe=False)
 
+
 @csrf_exempt
 def tags(request):
-    query = request.POST.get("query","")
+    query = request.POST.get("query", "")
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)

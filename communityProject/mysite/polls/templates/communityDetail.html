@@ -19,11 +19,14 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <link href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet"/>
+
 </head>
-<body>
+<body onload="onLoad()">
 
 <script>
     var fieldJson = '{ "theFields" : [] }';
+    var communityTags = {{ communityTags|safe }};
 </script>
 
 <nav class="navbar navbar-expand-md">
@@ -49,6 +52,9 @@
             <div class="col-sm-10">
                 <h2>{{ communityDetail.community_name }}</h2>
                 <h3>{{ communityDetail.community_desc }}</h3>
+                <input type="text" id="com_tags" class="floatLabel displayInp" name="com_tags" data-role="tagsinput" width="100%"
+                       disabled>
+                <P></P>
             </div>
             <div class="col-sm-2">
                 <button class="btn miniBtn"
@@ -222,7 +228,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-
+<script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 <script src="{% static 'controller/communityDetail.js' %}"></script>
 </body>
 

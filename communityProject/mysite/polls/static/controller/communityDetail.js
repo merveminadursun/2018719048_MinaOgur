@@ -1,3 +1,19 @@
+function onLoad() {
+    console.log(communityTags);
+    if (communityTags.length > 0) {
+        if (communityTags[0].fields.tag_info !== undefined) {
+            var myTagJson = JSON.parse(communityTags[0].fields.tag_info);
+            if (myTagJson.theTags !== undefined) {
+                var tags = myTagJson.theTags;
+                for (var i = 0; i < tags.length; i++) {
+                    $('#com_tags').tagsinput('add', tags[i].tag);
+
+                }
+            }
+        }
+    }
+}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -110,7 +126,7 @@ $("#deactivateCom").click(function () {
     communityId = aarr[aarr.length - 1];
     jQuery.ajax({
         type: "POST", url: "/deactivateCommunity",
-        data: { "communityId" : communityId },
+        data: {"communityId": communityId},
         success:
             function (result) {
                 $('#confirmDeactivation').modal('hide');
