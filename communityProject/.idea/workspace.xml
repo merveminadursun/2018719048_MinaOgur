@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2671578-260c-43b2-85ec-911b1631493b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/newCommunity.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/newCommunity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/css/formstyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/css/formstyle.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -103,7 +99,7 @@
       <workItem from="1574066304068" duration="1048000" />
       <workItem from="1574085485934" duration="6476000" />
       <workItem from="1574180328676" duration="1246000" />
-      <workItem from="1574506889284" duration="38725000" />
+      <workItem from="1574506889284" duration="39689000" />
     </task>
     <servers />
   </component>
