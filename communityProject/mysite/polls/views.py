@@ -45,6 +45,12 @@ def newCommunity(request):
             newdt_allowed = False
         cmn.save()
         # return HttpResponse(cmn.pk)
+
+        tagsJson = request.POST.get('tagsJson')
+        cmn_tag = CommunityTag()
+        cmn_tag.community = cmn
+        cmn_tag.tag_info = tagsJson
+        cmn_tag.save()
         return redirect("/")
     else:
         return render(request, "newCommunity.html", {})

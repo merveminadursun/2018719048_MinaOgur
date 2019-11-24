@@ -206,3 +206,7 @@ h1, h2, h3 {
 	zoom: 150%;
 	color: #cccccc;
 }
+
+.bootstrap-tagsinput {
+	width: 100%;
+}
