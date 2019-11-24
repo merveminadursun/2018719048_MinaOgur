@@ -115,6 +115,14 @@ class DataType(models.Model):
     def __str__(self):
         return self.data_type_name
 
+class Post(models.Model):
+    community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+    data_type = models.ForeignKey(DataType, default="", on_delete=models.CASCADE)
+    post_name = models.CharField(max_length=100)
+    post_desc = models.TextField(default="")
+    owner     = models.ForeignKey(User, default="", on_delete=models.CASCADE)
+    create_date = models.DateTimeField('date published')
+    post_data   = JSONField(default="")
 
 class UserBuilderRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

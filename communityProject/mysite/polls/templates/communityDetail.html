@@ -52,7 +52,8 @@
             <div class="col-sm-10">
                 <h2>{{ communityDetail.community_name }}</h2>
                 <h3>{{ communityDetail.community_desc }}</h3>
-                <input type="text" id="com_tags" class="floatLabel displayInp" name="com_tags" data-role="tagsinput" width="100%"
+                <input type="text" id="com_tags" class="floatLabel displayInp" name="com_tags" data-role="tagsinput"
+                       width="100%"
                        disabled>
                 <P></P>
             </div>
@@ -206,6 +207,12 @@
                                     <p class="card-text">{{ DataTypes.data_type_desc }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                                <a href="{{ DataTypes.community_id }}/{{ DataTypes.id }}/newPost"
+                                                   class="btnCommView">
+                                                    Create Post!
+                                                </a>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

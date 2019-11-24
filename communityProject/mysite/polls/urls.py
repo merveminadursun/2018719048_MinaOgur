@@ -6,9 +6,10 @@ app_name = "polls"
 urlpatterns = [
     path('', views.index, name='index'),
     path('community/<id>', views.getCommunity, name="communityDetail"),
-    path('newCommunity/', views.newCommunity,  name='index'),
+    path('newCommunity/', views.newCommunity, name='index'),
     path('eleman', views.newDataType),
     path('deactivateCommunity', views.deactivateCommunity),
+    path('community/<cmn_id>/<dt_id>/newPost', views.newPost, name="newPost"),
     path('login/<id>/', views.login),
     path('signup/', views.signup),
     path('c/<url>/', include([
@@ -17,6 +18,6 @@ urlpatterns = [
         path('datatypes/', views.getCommunityDataTypes),
         path('datafields/', views.getCommunityDataFields)
     ])
-    ),
+         ),
     path('tags', views.tags)
 ]

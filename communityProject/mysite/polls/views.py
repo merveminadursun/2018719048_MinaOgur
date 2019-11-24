@@ -89,6 +89,16 @@ def deactivateCommunity(request):
     community.save()
     return JsonResponse(communityId, safe=False)
 
+@csrf_exempt
+def newPost(request, cmn_id, dt_id):
+    community = get_object_or_404(Community, pk=cmn_id)
+    data_type = get_object_or_404(DataType, pk=dt_id)
+    tmpObj = serializers.serialize("json", DataType.objects.filter(pk=dt_id).only("formfields"))
+    formFields = json.loads(tmpObj)
+    return render(request, "newPost.html", { "community"  : community,
+                                             "data_type"  : data_type,
+                                             "formFields" : formFields })
+
 
 def login(request, id):
     data = list(UserService.login(id))
