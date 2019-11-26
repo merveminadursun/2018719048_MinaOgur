@@ -7,6 +7,13 @@ function onLoad() {
             if (myFormFields.theFields !== undefined) {
                 var fields = myFormFields.theFields;
 
+                fields.sort(function (a, b) {
+                    var pos1 = Number(a.fieldposnr);
+                    var pos2 = Number(b.fieldposnr);
+                    return pos1 - pos2;
+                });
+
+
                 var form = document.getElementById("postForm");
 
                 for (var i = 0; i < fields.length; i++) {

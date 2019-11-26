@@ -42,6 +42,7 @@ $('#newDataType').on('click', function (e) {
     //your awesome code here
 })
 var formFieldsJson = {
+    "fieldposnr": "",
     "fieldlabel": "",
     "fieldtype": "",
     "isRequired": "",
@@ -59,40 +60,42 @@ $(document).ready(function () {
         var newRow = $("<tr>");
         var cols = "";
 
-        var fieldTypes = document.getElementById("myTable").rows[1].cells[1].children[0]
-        var fieldTypesSel = fieldTypes.options[fieldTypes.selectedIndex].text
+        var fieldTypes = document.getElementById("myTable").rows[1].cells[2].children[0];
+        var fieldTypesSel = fieldTypes.options[fieldTypes.selectedIndex].text;
 
         var isRequired = document.getElementById("dt_fieldrequire").checked === true ? 'Yes' : 'No';
 
-        cols += '<th>' + document.getElementById("myTable").rows[1].cells[0].children[0].value + '</th>'
-        cols += '<td>' + fieldTypesSel + '</td>'
-        cols += '<td>' + isRequired + '</td>'
+        cols += '<th>' + document.getElementById("myTable").rows[1].cells[0].children[0].value + '</th>';
+        cols += '<th>' + document.getElementById("myTable").rows[1].cells[1].children[0].value + '</th>';
+        cols += '<td>' + fieldTypesSel + '</td>';
+        cols += '<td>' + isRequired + '</td>';
 
         cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
         newRow.append(cols);
         $("table").append(newRow);
         counter++;
-
-        formFieldsJson.fieldlabel = document.getElementById("myTable").rows[1].cells[0].children[0].value
-        formFieldsJson.fieldtype = fieldTypesSel
-        formFieldsJson.isRequired = document.getElementById("dt_fieldrequire").checked
+        formFieldsJson.fieldposnr = document.getElementById("myTable").rows[1].cells[0].children[0].value;
+        formFieldsJson.fieldlabel = document.getElementById("myTable").rows[1].cells[1].children[0].value;
+        formFieldsJson.fieldtype = fieldTypesSel;
+        formFieldsJson.isRequired = document.getElementById("dt_fieldrequire").checked;
 
 
         var obj = JSON.parse(fieldJson);
         obj['theFields'].push({
-            "fieldlabel": document.getElementById("myTable").rows[1].cells[0].children[0].value,
+            "fieldposnr" : document.getElementById("myTable").rows[1].cells[0].children[0].value,
+            "fieldlabel": document.getElementById("myTable").rows[1].cells[1].children[0].value,
             "fieldtype": fieldTypes.options[fieldTypes.selectedIndex].value,
             "isRequired": document.getElementById("dt_fieldrequire").checked
         });
         fieldJson = JSON.stringify(obj);
-        console.log(fieldJson)
+        console.log(fieldJson);
 
     });
 
 
     $("table").on("click", ".ibtnDel", function (event) {
         $(this).closest("tr").remove();
-        counter -= 1
+        counter -= 1;
     });
 
     $("#addDataType").on("click", function () {
@@ -129,7 +132,7 @@ $("#deactivateCom").click(function () {
         data: {"communityId": communityId},
         success:
             function (result) {
-                $('#confirmDeactivation').modal('hide');
+                $('#confirmDeactivation').  modal('hide');
                 window.location.href = "/";
             }
     });
