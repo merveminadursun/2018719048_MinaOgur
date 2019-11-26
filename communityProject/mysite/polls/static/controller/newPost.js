@@ -27,8 +27,41 @@ function onLoad() {
                     label.appendChild(title);
                     container.append(label);
 
+                    var lv_inputtype = "";
+
+                    switch (fields[i].fieldtype) {
+                        // <option value="TE">Text field</option>
+                        // <option value="TA">Text area</option>
+                        // <option value="DA">Date</option>
+                        // <option value="TI">Time</option>
+                        // <option value="IN">Integer</option>
+                        // <option value="DE">Decimal</option>
+                        // <option value="IM">Image</option>
+                        // <option value="VI">Video</option>
+                        // <option value="AU">Audio</option>
+                        // <option value="UR">URI</option>
+                        // <option value="LO">Location</option>
+                        case "TE":
+                            lv_inputtype = "text";
+                            break;
+                        case "DA":
+                            lv_inputtype = "date";
+                            break;
+                        case "IM":
+                            lv_inputtype = "image";
+                            break;
+                        case "TI":
+                            lv_inputtype = "time";
+                            break;
+                        case "UR":
+                            lv_inputtype = "url";
+                            break;
+                        case "IN": case "DE":
+                            lv_inputtype = "number";
+                            break;
+                    }
                     var input = document.createElement("input");
-                    input.type = "text";
+                    input.type = lv_inputtype === "" ? "text" : lv_inputtype;
                     input.id = fields[i].fieldlabel;
                     input.className = "floatLabel"
                     input.name = fields[i].fieldlabel;
@@ -55,3 +88,6 @@ function onLoad() {
         }
     }
 }
+
+
+

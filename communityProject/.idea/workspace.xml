@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d2671578-260c-43b2-85ec-911b1631493b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/newPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/newPost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +110,7 @@
       <workItem from="1574680860082" duration="772000" />
       <workItem from="1574693539251" duration="806000" />
       <workItem from="1574700256345" duration="27000" />
-      <workItem from="1574758790161" duration="1314000" />
+      <workItem from="1574758790161" duration="6601000" />
     </task>
     <servers />
   </component>

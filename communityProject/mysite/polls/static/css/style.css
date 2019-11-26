@@ -199,6 +199,7 @@ h1, h2, h3 {
 	background-color: #cccccc;
 	color: #646464;
 	font-weight: bold;
+	float: right;
 }
 
 .miniBtn {
@@ -217,4 +218,8 @@ h1, h2, h3 {
 
 .bootstrap-tagsinput {
 	width: 100%;
+}
+
+.backText {
+	color: #cccccc;
 }
