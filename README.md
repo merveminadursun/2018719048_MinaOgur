@@ -6,4 +6,7 @@ Every changes in project code files will be going to be committed to this reposi
 
 There will be a master folder to cover the projects codes and the code files will be seperated into the related folders according to their functionality.
 
+References
+https://www.linode.com/docs/getting-started/
+
 
