@@ -10,6 +10,7 @@ urlpatterns = [
     path('eleman', views.newDataType),
     path('deactivateCommunity', views.deactivateCommunity),
     path('community/<cmn_id>/<dt_id>/newPost', views.newPost, name="newPost"),
+    path('createNewPost', views.createNewPost),
     path('login/<id>/', views.login),
     path('signup/', views.signup),
     path('c/<url>/', include([

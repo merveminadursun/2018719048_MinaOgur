@@ -49,6 +49,7 @@
 
 <main>
     <div class="container newCommunity">
+
         <div class="row">
             <div class="col-sm-10">
                 <p>
@@ -56,7 +57,7 @@
                         <span class="glyphicon glyphicon-chevron-left"></span>
                         Go back to the community!
                     </a>
-                </span>
+                    </span>
 
                 </p>
                 <h2>{{ data_type.data_type_name }}</h2>
@@ -68,6 +69,7 @@
             </div>
             <div class="container newCommunity">
                 <form id="postForm"> {% csrf_token %}
+                    <input hidden value="" name="formFields" id="formFields">
                     <div class="form-group">
                         <label for="post_name">Title</label>
                         <input type="text" id="post_name" class="floatLabel" name="post_name" width="100%"
@@ -81,6 +83,8 @@
                 </form>
             </div>
         </div>
+
+
     </div>
 </main>
 

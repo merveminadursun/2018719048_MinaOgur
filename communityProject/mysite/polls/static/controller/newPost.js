@@ -56,7 +56,8 @@ function onLoad() {
                         case "UR":
                             lv_inputtype = "url";
                             break;
-                        case "IN": case "DE":
+                        case "IN":
+                        case "DE":
                             lv_inputtype = "number";
                             break;
                     }
@@ -75,10 +76,13 @@ function onLoad() {
                 container.className = "form-group";
 
                 var input = document.createElement("input");
-                input.type = "submit";
+                input.type = "button";
                 input.value = "Post it!";
                 input.className = "btnNewPost";
                 input.id = "newPostBtn";
+                input.onclick = function ()  {
+                     onCreateNewPost();
+                };
 
                 container.append(input);
                 form.appendChild(container);
@@ -89,5 +93,69 @@ function onLoad() {
     }
 }
 
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+var csrftoken = getCookie('csrftoken');
+
+function onCreateNewPost() {
+
+    var obj = JSON.parse(formFields[0].fields.formfields);
+    for (var i = 0; i < obj.theFields.length; i++) {
+        obj.theFields[i].fieldvalue = document.getElementById(obj.theFields[i].fieldlabel).value;
+    }
+
+    fieldJson = JSON.stringify(obj);
+    formFields[0].fields.formfields = fieldJson;
+    console.log(obj);
+    $("#formFields").val(formFields);
+
+
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    jQuery.ajax({
+        type: "POST", url: "/createNewPost",
+        data: {
+            "formFields": JSON.stringify(formFields),
+            "post_name": document.getElementById("post_name").value,
+            "post_desc": document.getElementById("post_description").value
+        },
+        success:
+            function (result) {
+                 // $('.alert-success').show();
+                 // $("#myModal").modal();
+
+                // success mesajı göstermek istiyorum, yapamadım
+            },
+        error: function (result) {
+            alert("hata aldık");
+        }
+    });
+
+}
 

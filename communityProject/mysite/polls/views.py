@@ -99,6 +99,23 @@ def newPost(request, cmn_id, dt_id):
                                              "data_type"  : data_type,
                                              "formFields" : formFields })
 
+@csrf_exempt
+def createNewPost(request):
+    formData = json.loads(request.POST.get("formFields", ""))
+    formDataDict  = json.dumps(formData[0]["fields"])
+    formFieldsData = json.loads(formDataDict)
+    formFields = formFieldsData["formfields"]
+
+    pt = Post()
+    pt.community = Community.objects.get(pk=formFieldsData["community"])
+    pt.data_type = DataType.objects.get(pk=json.dumps(formData[0]["pk"]))
+    pt.post_name = request.POST.get("post_name", "")
+    pt.post_desc = request.POST.get("post_desc", "")
+    pt.post_data = formFields
+    pt.owner = User.objects.get(pk=1)
+    pt.create_date = timezone.now()
+    pt.save()
+    return HttpResponse(request)
 
 def login(request, id):
     data = list(UserService.login(id))
