@@ -125,13 +125,15 @@ def login(request, id):
 def getCommunity(request, id):
     communityDetail = get_object_or_404(Community, pk=id)
     communityDataTypes = DataType.objects.filter(community=id)
+    communityPosts = Post.objects.filter(community=id)
     print(CommunityTag.objects.filter(community_id=id))
     tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id).only("tag_info"))
     communityTags = json.loads(tmpObj)
     # communityTags = JsonResponse({"tags": json.dumps(CommunityTag.objects.filter(community_id=id))}, safe=False)
     return render(request, "communityDetail.html", {"communityDetail": communityDetail,
                                                     "communityDataTypes": communityDataTypes,
-                                                    "communityTags": communityTags})
+                                                    "communityTags": communityTags,
+                                                    "communityPosts": communityPosts })
 
 
 def getCommunityMembers(request, url):
