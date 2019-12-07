@@ -149,7 +149,6 @@ function onCreateNewPost() {
             function (result) {
                  // $('.alert-success').show();
                  // $("#myModal").modal();
-
                 // success mesajı göstermek istiyorum, yapamadım
             },
         error: function (result) {

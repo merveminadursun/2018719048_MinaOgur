@@ -57,38 +57,62 @@ $(document).ready(function () {
 
     $("#addDataField").on("click", function () {
 
-        var newRow = $("<tr>");
-        var cols = "";
+        var goon = checkFormFields();
 
-        var fieldTypes = document.getElementById("myTable").rows[1].cells[2].children[0];
-        var fieldTypesSel = fieldTypes.options[fieldTypes.selectedIndex].text;
+        if (goon) {
+            var tagsJson = '{ "enums" : [] }';
+            var newRow = $("<tr>");
+            var cols = "";
+            var fieldTypes = document.getElementById("myTable").rows[1].cells[2].children[0];
+            var fieldTypesSel = fieldTypes.options[fieldTypes.selectedIndex].text;
+            var isRequired = document.getElementById("dt_fieldrequire").checked === true ? 'Yes' : 'No';
+            var enumString = "";
+            if (fieldTypes.options[fieldTypes.selectedIndex].value === "EN") {
+                var tagList = $('#enum_vals').tagsinput('items');
+                for (var i = 0; i < tagList.length; i++) {
+                    var obj = JSON.parse(tagsJson);
+                    obj['enums'].push({
+                        "enum": tagList[i]
+                    });
+                    tagsJson = JSON.stringify(obj);
 
-        var isRequired = document.getElementById("dt_fieldrequire").checked === true ? 'Yes' : 'No';
+                    if (i == tagList.length - 1) {
+                        enumString += tagList[i]
+                    } else {
+                        enumString += tagList[i] + ", ";
+                    }
+                }
+            }
+            cols += '<th>' + document.getElementById("myTable").rows[1].cells[0].children[0].value + '</th>';
+            cols += '<th>' + document.getElementById("myTable").rows[1].cells[1].children[0].value + '</th>';
+            cols += '<td>' + fieldTypesSel + '</td>';
+            cols += '<td>' + enumString + '</td>';
+            cols += '<td>' + isRequired + '</td>';
+            cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+            newRow.append(cols);
+            $("table").append(newRow);
+            counter++;
+            formFieldsJson.fieldposnr = document.getElementById("myTable").rows[1].cells[0].children[0].value;
+            formFieldsJson.fieldlabel = document.getElementById("myTable").rows[1].cells[1].children[0].value;
+            formFieldsJson.fieldtype = fieldTypesSel;
+            formFieldsJson.isRequired = document.getElementById("dt_fieldrequire").checked;
+            if (fieldTypes.options[fieldTypes.selectedIndex].value === "EN") {
+                formFieldsJson.enumvals = tagsJson;
+            }
+            var obj = JSON.parse(fieldJson);
+            obj['theFields'].push({
+                "fieldposnr": document.getElementById("myTable").rows[1].cells[0].children[0].value,
+                "fieldlabel": document.getElementById("myTable").rows[1].cells[1].children[0].value,
+                "fieldtype": fieldTypes.options[fieldTypes.selectedIndex].value,
+                "isRequired": document.getElementById("dt_fieldrequire").checked,
+                "enumvals": fieldTypes.options[fieldTypes.selectedIndex].value === "EN" ? tagsJson : ""
+            });
+            fieldJson = JSON.stringify(obj);
+            console.log(fieldJson);
+            clearFormFields();
+        } else {
 
-        cols += '<th>' + document.getElementById("myTable").rows[1].cells[0].children[0].value + '</th>';
-        cols += '<th>' + document.getElementById("myTable").rows[1].cells[1].children[0].value + '</th>';
-        cols += '<td>' + fieldTypesSel + '</td>';
-        cols += '<td>' + isRequired + '</td>';
-
-        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
-        newRow.append(cols);
-        $("table").append(newRow);
-        counter++;
-        formFieldsJson.fieldposnr = document.getElementById("myTable").rows[1].cells[0].children[0].value;
-        formFieldsJson.fieldlabel = document.getElementById("myTable").rows[1].cells[1].children[0].value;
-        formFieldsJson.fieldtype = fieldTypesSel;
-        formFieldsJson.isRequired = document.getElementById("dt_fieldrequire").checked;
-
-
-        var obj = JSON.parse(fieldJson);
-        obj['theFields'].push({
-            "fieldposnr" : document.getElementById("myTable").rows[1].cells[0].children[0].value,
-            "fieldlabel": document.getElementById("myTable").rows[1].cells[1].children[0].value,
-            "fieldtype": fieldTypes.options[fieldTypes.selectedIndex].value,
-            "isRequired": document.getElementById("dt_fieldrequire").checked
-        });
-        fieldJson = JSON.stringify(obj);
-        console.log(fieldJson);
+        }
 
     });
 
@@ -110,6 +134,33 @@ $(document).ready(function () {
 
 });
 
+function clearFormFields() {
+    document.getElementById("dt_fieldposnr").value = "";
+    document.getElementById("dt_fieldlabel").value = "";
+    document.getElementById("dt_fieldtype").value = "";
+    document.getElementById("enum_vals").disabled = true;
+    $("#enum_vals").tagsinput('removeAll');
+}
+
+function checkFormFields() {
+
+    if (document.getElementById("dt_fieldposnr").value == "" &&
+        document.getElementById("dt_fieldlabel").value == "" &&
+        document.getElementById("dt_fieldtype").value == "") {
+        return false;
+    }
+    var fields = JSON.parse(fieldJson);
+    console.log(fields);
+
+    if (fields.theFields !== undefined) {
+        for (var i = 0; i < fields.theFields.length; i++) {
+            if (fields.theFields[i].fieldposnr === document.getElementById("dt_fieldposnr").value) {
+                return false;
+            }
+        }
+    }
+    return  true;
+}
 
 $("#deactivateCom").click(function () {
 
@@ -132,9 +183,19 @@ $("#deactivateCom").click(function () {
         data: {"communityId": communityId},
         success:
             function (result) {
-                $('#confirmDeactivation').  modal('hide');
+                $('#confirmDeactivation').modal('hide');
                 window.location.href = "/";
             }
     });
 });
 
+
+function onSelectFType() {
+    if (document.getElementById("dt_fieldtype").value === "EN") {
+        document.getElementById("enum_vals").disabled = false;
+    } else {
+        document.getElementById("enum_vals").disabled = true;
+        $("#enum_vals").tagsinput('removeAll');
+    }
+
+}

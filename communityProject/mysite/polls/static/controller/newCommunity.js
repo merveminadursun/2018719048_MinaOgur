@@ -22,11 +22,6 @@ $('#com_name').keypress(function (event) {
                                         tagValue = result.results.bindings[i].itemDescription.value
                                         $('#com_tags').tagsinput('add', tagValue);
 
-                                        // var obj = JSON.parse(tagsJson);
-                                        // obj['theTags'].push({
-                                        //     "tag": tagValue
-                                        // });
-                                        // tagsJson = JSON.stringify(obj);
                                     }
                                 }
                             }
@@ -47,6 +42,8 @@ $("#addCommunity").on("click", function () {
         tagsJson = JSON.stringify(obj);
     }
     $("#communityTags").val(tagsJson);
+
+
 
 });
 
