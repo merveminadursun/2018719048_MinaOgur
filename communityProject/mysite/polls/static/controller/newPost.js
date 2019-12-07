@@ -28,6 +28,7 @@ function onLoad() {
                     container.append(label);
 
                     var lv_inputtype = "";
+                    var input = document.createElement("input");
 
                     switch (fields[i].fieldtype) {
                         // <option value="TE">Text field</option>
@@ -41,6 +42,7 @@ function onLoad() {
                         // <option value="AU">Audio</option>
                         // <option value="UR">URI</option>
                         // <option value="LO">Location</option>
+                        // <option value="EN">Enumerated</option>
                         case "TE":
                             lv_inputtype = "text";
                             break;
@@ -60,8 +62,20 @@ function onLoad() {
                         case "DE":
                             lv_inputtype = "number";
                             break;
+                        case "EN":
+                            var datalist = document.createElement("datalist");
+                            datalist.id = "myEnumList";
+                            datalist.children = list;
+
+                            var list = "";
+                            var enumList = JSON.parse(fields[0].enumvals);
+                            for (var j = 0; j < enumList.enums.length; j++) {
+                                list += '<option value="' + enumList.enums[j].enum + '"></option>';
+                            }
+                            input.setAttribute("list", "myEnumList");
+                            break;
                     }
-                    var input = document.createElement("input");
+
                     input.type = lv_inputtype === "" ? "text" : lv_inputtype;
                     input.id = fields[i].fieldlabel;
                     input.className = "floatLabel"
@@ -69,7 +83,18 @@ function onLoad() {
                     input.width = "100%";
 
                     container.append(input);
+
+                    if (fields[i].fieldtype == "EN") {
+                        container.append(datalist);
+                    }
                     form.appendChild(container);
+
+                    if (fields[i].fieldtype == "EN") {
+                        var my_list = document.getElementById("myEnumList");
+                        my_list.innerHTML = list;
+                    }
+
+
                 }
 
                 container = document.createElement("div");
@@ -80,8 +105,8 @@ function onLoad() {
                 input.value = "Post it!";
                 input.className = "btnNewPost";
                 input.id = "newPostBtn";
-                input.onclick = function ()  {
-                     onCreateNewPost();
+                input.onclick = function () {
+                    onCreateNewPost();
                 };
 
                 container.append(input);
@@ -147,9 +172,12 @@ function onCreateNewPost() {
         },
         success:
             function (result) {
-                 // $('.alert-success').show();
-                 // $("#myModal").modal();
+                // $('.alert-success').show();
+                // $("#myModal").modal();
                 // success mesajı göstermek istiyorum, yapamadım
+                var aarr = window.location.href.split('/');
+                communityId = aarr[aarr.length - 3];
+                window.location.href = "/community/" + communityId;
             },
         error: function (result) {
             alert("hata aldık");
