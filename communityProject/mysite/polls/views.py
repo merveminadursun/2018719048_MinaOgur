@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth import authenticate, logout, login
-from django.contrib.auth import login as auth_login
+
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .services import *
@@ -61,6 +61,9 @@ def my_login(request):
             return JsonResponse(data, safe=False)
         else:
             return HttpResponseNotFound("user is not none")
+
+def my_logout(request):
+    logout(request)
 
 # End Of Login + Register
 @csrf_exempt

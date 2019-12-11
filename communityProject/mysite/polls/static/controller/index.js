@@ -1,5 +1,6 @@
 loginprogress = '0';
 
+loginReturn = "";
 // $(document).ready(function () {
 //     $('.header').height($(window).height());
 // })
@@ -46,19 +47,22 @@ function doNewLogin() {
                 success:
                     function (result) {
                         console.dir(result);
-                        document.getElementById('newlogin').style.display = 'none';
-                        document.getElementById('newlogin_loggingin').style.display = 'none';
-                        document.getElementById('newlogin_lightbox').style.display = 'none';
-                        li = document.createElement("li");
-                        li.setAttribute("class", "nav-item");
-                        a = document.createElement("a");
-                        p = document.createTextNode( "Hello," +  result.first_name + " " + result.last_name + "!");
-                        a.setAttribute("class", "nav-link");
-                        a.appendChild(p)
-                        li.appendChild(a);
-                        ul = document.getElementById("mybar");
-                        ul.appendChild(li)
+                        // document.getElementById('newlogin').style.display = 'none';
+                        // document.getElementById('newlogin_loggingin').style.display = 'none';
+                        // document.getElementById('newlogin_lightbox').style.display = 'none';
+                        // li = document.createElement("li");
+                        // li.setAttribute("class", "nav-item");
+                        // a = document.createElement("a");
+                        // p = document.createTextNode("Hello," + result.first_name + " " + result.last_name + "!");
+                        // a.setAttribute("class", "nav-link");
+                        // a.appendChild(p)
+                        // li.appendChild(a);
+                        // ul = document.getElementById("mybar");
+                        // ul.appendChild(li)
                         // window.location.href = "/";
+                        // node = ul.childNodes[1];
+                        // ul.removeChild(node);
+                        window.location.href = "/";
                     },
                 error:
                     function (oreturn) {
