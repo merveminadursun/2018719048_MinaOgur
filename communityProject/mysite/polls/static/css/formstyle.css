@@ -70,3 +70,11 @@ h2, h3 {
 
 
 
+.header {
+    background-image: url('images/home2.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    width: 1000px;
+    height: 300px;
+}

@@ -19,11 +19,11 @@ class WikidataService:
 
 class UserService:
 
-    def login(id):
-        return User.objects.filter(id=id).values()
+    def login(email, password):
+        return MyUser.objects.filter(email=email, password=password) .values()
 
     def signup(data):
-        return User.objects.filter(id=data.id).values()
+        return MyUser.objects.filter(id=data.id).values()
 
 
 class CommunityService:

@@ -1,11 +1,16 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
+from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .services import *
 from django.core import serializers
 import json
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
+
 
 
 class LazyEncoder(DjangoJSONEncoder):
@@ -24,7 +29,7 @@ def index(request):
 
 @csrf_exempt
 def signup(request):
-    usr = User()
+    usr = MyUser()
     usr.username = request.POST.get("username", "")
     usr.password = request.POST.get("password", "")
     usr.email = request.POST.get("email", "")
@@ -34,14 +39,40 @@ def signup(request):
     return HttpResponse(usr.pk)
 
 
+# Begin Of Login + Register
+@csrf_exempt
+def my_login(request):
+    email = request.POST.get("email", "")
+    password = request.POST.get("password", "")
+    data = get_object_or_404(UserService.login(email, password))
+    print("====================")
+    print(data)
+    if (data == []):
+        return HttpResponseNotFound("Account Not Found")
+    else:
+        # Set a session value
+        request.session['user_id'] = data["id"]
+        # Set session as modified to force data updates/cookie to be saved.
+        request.session.modified = True
+
+        user = authenticate(request, username=data["username"], password=data["password"])
+        if user is not None:
+            login(request, user)
+            return JsonResponse(data, safe=False)
+        else:
+            return HttpResponseNotFound("user is not none")
+
+# End Of Login + Register
 @csrf_exempt
 def newCommunity(request):
     if request.method == "POST":
         cmn = Community()
+        usr = MyUser()
+        usr.id = 1
         cmn.community_name = request.POST.get("com_name", "")
         cmn.community_desc = request.POST.get("com_description", "")
         cmn.create_date = timezone.now()
-        cmn.owner_id = 1
+        cmn.owner = 1
         join_allowed = request.POST.get("com_joinallow", "")
         if join_allowed == 'on':
             cmn.join_allowed = True
@@ -74,7 +105,7 @@ def newDataType(request):
         dt.community = Community.objects.get(pk=communityId)
         dt.data_type_name = request.POST.get("dt_name", "")
         dt.data_type_desc = request.POST.get("dt_description", "")
-        dt.owner = User.objects.get(pk=1)
+        dt.owner = MyUser.objects.get(pk=1)
         dt.formfields = fieldJson
         dt.save()
         # return HttpResponse(dt.pk)
@@ -89,20 +120,22 @@ def deactivateCommunity(request):
     community.save()
     return JsonResponse(communityId, safe=False)
 
+
 @csrf_exempt
 def newPost(request, cmn_id, dt_id):
     community = get_object_or_404(Community, pk=cmn_id)
     data_type = get_object_or_404(DataType, pk=dt_id)
     tmpObj = serializers.serialize("json", DataType.objects.filter(pk=dt_id).only("formfields"))
     formFields = json.loads(tmpObj)
-    return render(request, "newPost.html", { "community"  : community,
-                                             "data_type"  : data_type,
-                                             "formFields" : formFields })
+    return render(request, "newPost.html", {"community": community,
+                                            "data_type": data_type,
+                                            "formFields": formFields})
+
 
 @csrf_exempt
 def createNewPost(request):
     formData = json.loads(request.POST.get("formFields", ""))
-    formDataDict  = json.dumps(formData[0]["fields"])
+    formDataDict = json.dumps(formData[0]["fields"])
     formFieldsData = json.loads(formDataDict)
     formFields = formFieldsData["formfields"]
 
@@ -112,14 +145,19 @@ def createNewPost(request):
     pt.post_name = request.POST.get("post_name", "")
     pt.post_desc = request.POST.get("post_desc", "")
     pt.post_data = formFields
-    pt.owner = User.objects.get(pk=1)
+    pt.owner = MyUser.objects.get(pk=1)
     pt.create_date = timezone.now()
     pt.save()
     return HttpResponse(request)
 
-def login(request, id):
-    data = list(UserService.login(id))
-    return JsonResponse(data, safe=False)
+
+def getPost(request, id):
+    # print(id)
+    postDetail = Post.objects.filter(id=id)
+    print("===================================================")
+    print(dir(postDetail))
+    # tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id).only("tag_info"))
+    return render(request, "newPost.html", {"postDetail": postDetail})
 
 
 def getCommunity(request, id):
@@ -133,7 +171,7 @@ def getCommunity(request, id):
     return render(request, "communityDetail.html", {"communityDetail": communityDetail,
                                                     "communityDataTypes": communityDataTypes,
                                                     "communityTags": communityTags,
-                                                    "communityPosts": communityPosts })
+                                                    "communityPosts": communityPosts})
 
 
 def getCommunityMembers(request, url):
