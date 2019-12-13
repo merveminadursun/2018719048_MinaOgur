@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth import authenticate, logout, login
-
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .services import *
@@ -10,8 +10,7 @@ from django.core import serializers
 import json
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
-
-
+from django.contrib.auth.models import User
 
 class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
@@ -28,15 +27,29 @@ def index(request):
 
 
 @csrf_exempt
-def signup(request):
+def my_signup(request):
+
+    # At this point, user is a User object that has already been saved
+    # to the database. You can continue to change its attributes
+    # if you want to change other fields.
+    # I will change it user profile page.
     usr = MyUser()
     usr.username = request.POST.get("username", "")
     usr.password = request.POST.get("password", "")
     usr.email = request.POST.get("email", "")
-    role = UserRole(id=3)  # defaulyt user role shoul be 3 = default user role
+    role = UserRole(id=3)  # default user role shoul be 3 = default user role
     usr.role = role
     usr.save()
-    return HttpResponse(usr.pk)
+    User.objects.create_user(usr.username , usr.email, usr.password)
+    user = authenticate(username=usr.username, password=usr.password)
+    # login(request, user)
+    if user is not None:
+        login(request, user)
+        return JsonResponse(usr.username, safe=False)
+    else:
+        return HttpResponseNotFound("user is not none")
+    # return HttpResponse(usr.pk)
+
 
 
 # Begin Of Login + Register
@@ -65,6 +78,18 @@ def my_login(request):
 def my_logout(request):
     logout(request)
 
+@csrf_exempt
+def check_username(request):
+    username = request.POST.get("username", "")
+    user_exist = MyUser.objects.filter(username=username).only("username")
+    print("=================")
+    print(len(user_exist))
+    if len(user_exist) == 0:
+        return HttpResponse("You can create, go on!")
+    else:
+        return HttpResponseNotFound("This user name was taken already!")
+
+
 # End Of Login + Register
 @csrf_exempt
 def newCommunity(request):
@@ -75,7 +100,8 @@ def newCommunity(request):
         cmn.community_name = request.POST.get("com_name", "")
         cmn.community_desc = request.POST.get("com_description", "")
         cmn.create_date = timezone.now()
-        cmn.owner = 1
+        print(request.user)
+        cmn.owner = MyUser.objects.get(username=request.user)
         join_allowed = request.POST.get("com_joinallow", "")
         if join_allowed == 'on':
             cmn.join_allowed = True
@@ -94,6 +120,15 @@ def newCommunity(request):
         cmn_tag.community = cmn
         cmn_tag.tag_info = tagsJson
         cmn_tag.save()
+
+        #Generic Data Type creation
+        dt = DataType()
+        dt.community = Community.objects.get(pk=cmn.id)
+        dt.data_type_name = "Generic Post"
+        dt.data_type_desc = "Here is a generic post for your basic posts in the community!"
+        print(request.user)
+        dt.owner = MyUser.objects.get(username=request.user)
+        dt.save()
         return redirect("/")
     else:
         return render(request, "newCommunity.html", {})

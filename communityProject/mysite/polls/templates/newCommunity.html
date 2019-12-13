@@ -33,13 +33,31 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="main-navigation">
-        <ul class="navbar-nav" style="float: right;">
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="loginId">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sign Up</a>
-            </li>
+        <ul class="navbar-nav" style="float: right;" id="mybar">
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+{#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
+                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">
+                  <span
+                          class="glyphicon glyphicon-log-in"></span>
+                        Login
+                    </a>
+                </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" id="userProfile">
+                        <span class="glyphicon glyphicon-user"></span>
+                        Hi, {{ user }}!
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}" id="logoutId">
+                        <span class="glyphicon glyphicon-log-out"></span>
+                        Logout
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

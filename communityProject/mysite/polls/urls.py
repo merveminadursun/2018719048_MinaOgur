@@ -13,7 +13,8 @@ urlpatterns = [
     path('createNewPost', views.createNewPost),
     path('community/post/<id>', views.getPost, name="newPost"),
     path('login', views.my_login),
-    path('signup/', views.signup),
+    path('signup', views.my_signup),
+    path("checkuser", views.check_username),
     path('c/<url>/', include([
         path('', views.getCommunity),
         path('members/', views.getCommunityMembers),

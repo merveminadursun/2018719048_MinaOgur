@@ -27,7 +27,7 @@
         <ul class="navbar-nav" style="float: right;" id="mybar">
             {% if not user.is_authenticated %}
                 <li class="nav-item">
-{#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
+                    {#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
                     <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">
                   <span
                           class="glyphicon glyphicon-log-in"></span>
@@ -36,6 +36,12 @@
                 </li>
             {% endif %}
             {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" id="userProfile">
+                        <span class="glyphicon glyphicon-user"></span>
+                        Hi, {{ user }}!
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}" id="logoutId">
                         <span class="glyphicon glyphicon-log-out"></span>
@@ -46,23 +52,6 @@
         </ul>
     </div>
 </nav>
-
-
-{#<nav class="navbar navbar-expand-md" id="afterlogin" style="display: none">#}
-{#    <a class="navbar-brand" href="/">Community</a>#}
-{#    <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">#}
-{#        <span class="navbar-toggler-icon"></span>#}
-{#    </button>#}
-{#    <div class="collapse navbar-collapse" id="main-navigation">#}
-{#        <ul class="navbar-nav" style="float: right;">#}
-{#            <li class="nav-item">#}
-{#                {% if userInfo %}#}
-{#                    <a class="nav-link" href="#" id="loginId">{{ userInfo.firt_name }}</a>#}
-{#                {% endif %}#}
-{#            </li>#}
-{#        </ul>#}
-{#    </div>#}
-{#</nav>#}
 
 
 <header class="page-header header container-fluid" style="height: 300px;">
@@ -82,18 +71,15 @@
             background-size: 100%;
             background-position: center;
         }
-
-
     </style>
-
 
     <div class="container features">
         <div class="row">
             {% if communityList %}
                 {% for Community in communityList %}
                     <div class="col-md-4">
-                        <div class="card mb-4 shadow-sm">
-                            <div class="card-body">
+                        <div class="card mb-4 shadow-sm" >
+                            <div class="card-body" >
                                 <h1 class="commHeader">{{ Community.community_name }}</h1>
                                 <p class="card-text">{{ Community.community_desc }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
@@ -142,11 +128,11 @@
                                     <div id="newlogin_form">
                                         <center>
                                             <div style="margin: 0px 0px 10px 0px;">
-                                                <input type="text" class="floatLabel" autocomplete="off"
+                                                <input type="text" class="logininput2" autocomplete="off"
                                                        placeholder="Your e-mail" spellcheck="false" id="newlogin_email">
                                             </div>
                                             <div style="margin: 0px 0px 15px 0px;">
-                                                <input type="password" class="floatLabel" placeholder="Password"
+                                                <input type="password" class="logininput2" placeholder="Password"
                                                        onkeydown="if(event.keyCode==13) { if(topdialogs != '2') { doNewLogin(); } }"
                                                        id="newlogin_password">
                                             </div>
@@ -188,6 +174,59 @@
          style="position: fixed; background: rgba(0,0,0,1); width: 500px; left: 50%; padding: 50px; margin: 0px 0px 0px -250px; top: 120px; z-index: 2000; text-align: center; display: none;"></div>
     <div id="getaccount"
          style="display: none; width: 1000px; background: rgba(25,25,25,1); border: 0px solid #222; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); position: fixed; top: -2000px; left: 50%; margin: 0px 0px 0px -450px; z-index: 50;">
+        <input type="hidden" id="getaccount_stage" value="1">
+        <input type="hidden" id="getaccount_emailstored" value="">
+        <div id="getaccount_inner"><input type="hidden" id="create_session" value="fbefd81a8b020efc5bb69fb0f6790dfc">
+            <div style="padding: 0px 0px 0px 0px;" id="newmember_dia">
+                <div style="margin: 0px 0px 0px 0px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-height: 400px;">
+                        <tbody>
+                        <tr>
+                            <td width="50%"
+                                style="background: url('{% static  "css/images/home.jpg" %}'); background-position: center;">
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 40px; color: #fff; margin: 0px 0px 0px 0px; line-height: 25px; text-align: center; padding: 20px 0px 10px 0px;text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Join Community
+                                </div>
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 20px; color: #fff; line-height: 25px; text-align: center;  margin: 0px 0px 0px 0px; text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Become a Community Member!
+                                </div>
+                            </td>
+                            <td width="50%">
+                                <div style="padding: 80px 30px 40px 30px;">
+                                    <center>
+                                        <div style="margin: 0px 0px 10px 0px;">
+                                            <input type="text" class="logininput2" autocomplete="off"
+                                                   placeholder="Your user name" spellcheck="false" id="getaccount_username">
+                                        </div>
+                                        <div style="margin: 0px 0px 10px 0px;">
+                                            <input type="text" class="logininput2" autocomplete="off"
+                                                   placeholder="Your e-mail" spellcheck="false" id="getaccount_email">
+                                        </div>
+                                        <div style="margin: 0px 0px 15px 0px;">
+                                            <input type="password" class="logininput2" placeholder="Password"
+                                                   id="getaccount_password">
+                                        </div>
+                                        <div style="margin: 37px 0px 0px 0px;">
+                                            <span class="buttonflat flatgreen" onclick="getAccountDo('2');"
+                                                  id="signupbutton3">Sign up</span> <span onclick="closegetaccount();"
+                                                                                          style="color: #aaa; cursor: pointer; padding: 0px 0px 0px 10px; font-size: 14px;"><span
+                                                style="color: #777; padding: 0px 3px 0px 0px;">or</span> cancel</span>
+                                        </div>
+                                        <div style="margin: 35px 0px 5px 0px; color: #999; font-size: 13px; padding: 0px 20px 0px 20px; line-height: 18px;">
+                                            <div style="margin: 10px 0px 5px 0px; color: #999; font-size: 13px; cursor: pointer;"
+                                                 onclick="closegetaccount(); newlogin(); ">Already have an account?
+                                                <span style="color: #ddd; padding: 0px 0px 0px 2px;">Login here</span>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     {# End Of Login  #}
     <div style="position: relative; bottom: 20px; text-align: center; font-size: x-large;">
