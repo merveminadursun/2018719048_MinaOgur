@@ -2,7 +2,10 @@ function onLoad() {
     console.log(formFields);
     var row = ""
     if (formFields.length > 0) {
-        if (formFields[0].fields.formfields !== undefined) {
+        var form = document.getElementById("postForm");
+        var container = document.createElement("div");
+        container.className = "form-group";
+        if (formFields[0].fields.formfields !== undefined && formFields[0].fields.formfields !== "") {
             var myFormFields = JSON.parse(formFields[0].fields.formfields);
             if (myFormFields.theFields !== undefined) {
                 var fields = myFormFields.theFields;
@@ -13,13 +16,7 @@ function onLoad() {
                     return pos1 - pos2;
                 });
 
-
-                var form = document.getElementById("postForm");
-
                 for (var i = 0; i < fields.length; i++) {
-
-                    var container = document.createElement("div");
-                    container.className = "form-group";
 
                     var label = document.createElement("label");
                     label.setAttribute("for", fields[i].fieldlabel);
@@ -114,7 +111,20 @@ function onLoad() {
 
 
             }
+        } else {
+            var input = document.createElement("input");
+            input.type = "button";
+            input.value = "Post it!";
+            input.className = "btnNewPost";
+            input.id = "newPostBtn";
+            input.onclick = function () {
+                onCreateNewPost();
+            };
+
+            container.append(input);
+            form.appendChild(container);
         }
+
     }
 }
 
