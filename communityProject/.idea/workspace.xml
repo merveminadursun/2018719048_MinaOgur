@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2671578-260c-43b2-85ec-911b1631493b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/newPost.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/newPost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -119,7 +119,7 @@
       <workItem from="1575994473700" duration="2258000" />
       <workItem from="1576062742811" duration="10404000" />
       <workItem from="1576149447511" duration="8128000" />
-      <workItem from="1576222577810" duration="4108000" />
+      <workItem from="1576222577810" duration="4180000" />
     </task>
     <servers />
   </component>
