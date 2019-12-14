@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .services import *
 from django.core import serializers
+from django.core.files.storage import default_storage
 import json
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
@@ -232,3 +233,12 @@ def tags(request):
     query = request.POST.get("query", "")
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)
+
+@csrf_exempt
+def save_files(request):
+    #  Saving POST'ed file to storage
+    file = request.FILES.get('myfile')
+    file_name = default_storage.save(file.name, file)
+    #  Reading file from storage
+    file_url = default_storage.url(file_name) #use file_url for reading
+    return JsonResponse(file_url, safe=False)

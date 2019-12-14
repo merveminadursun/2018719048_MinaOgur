@@ -47,7 +47,10 @@ function onLoad() {
                             lv_inputtype = "date";
                             break;
                         case "IM":
-                            lv_inputtype = "image";
+                        case "AU":
+                        case "VI":
+                            lv_inputtype = "file";
+                            input.className = "custom-file-input"
                             break;
                         case "TI":
                             lv_inputtype = "time";
@@ -155,8 +158,39 @@ function onCreateNewPost() {
 
     var obj = JSON.parse(formFields[0].fields.formfields);
     for (var i = 0; i < obj.theFields.length; i++) {
-        obj.theFields[i].fieldvalue = document.getElementById(obj.theFields[i].fieldlabel).value;
+
+        if (obj.theFields[i].fieldtype === "IM" || obj.theFields[i].fieldtype === "AU" || obj.theFields[i].fieldtype === "VI") {
+            // if there are any files , firt save them to give their url values:
+
+            var data = new FormData();
+            var file = document.getElementById(obj.theFields[i].fieldlabel).files[0];
+
+            data.append('myfile', file);
+
+            jQuery.ajax({
+                type: "POST", url: "/savefile",
+                async: false,
+                data: data,
+                contentType: false,
+                processData: false,
+                success:
+                    function (result) {
+                        obj.theFields[i].fieldvalue = result;
+                        // console.dir(result);
+                    },
+                error: function (result) {
+                    showerror("Error during file upload!");
+                    //  console.dir(result);
+                    // alert("hata aldık");
+                }
+            });
+        } else {
+
+
+            obj.theFields[i].fieldvalue = document.getElementById(obj.theFields[i].fieldlabel).value;
+        }
     }
+
 
     fieldJson = JSON.stringify(obj);
     formFields[0].fields.formfields = fieldJson;
@@ -175,6 +209,7 @@ function onCreateNewPost() {
 
     jQuery.ajax({
         type: "POST", url: "/createNewPost",
+        async: false,
         data: {
             "formFields": JSON.stringify(formFields),
             "post_name": document.getElementById("post_name").value,
@@ -195,4 +230,16 @@ function onCreateNewPost() {
     });
 
 }
+
+
+function showerror(msg) {
+    document.getElementById('get_error').style.display = 'block';
+    document.getElementById('get_error').innerHTML = '<div style="font-size: 23px; color:#cccccc; margin: 0px 0px 30px 0px;">' + msg + '</div><div style=""><span onclick="errorpopupclear();" class="buttonflat flatgrey">OK</span></div>';
+}
+
+function errorpopupclear() {
+    document.getElementById('get_error').style.display = 'none';
+    document.getElementById('get_error').innerHTML = '';
+}
+
 

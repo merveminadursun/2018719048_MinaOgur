@@ -15,6 +15,7 @@ urlpatterns = [
     path('login', views.my_login),
     path('signup', views.my_signup),
     path("checkuser", views.check_username),
+    path("savefile", views.save_files),
     path('c/<url>/', include([
         path('', views.getCommunity),
         path('members/', views.getCommunityMembers),
