@@ -127,6 +127,7 @@
                             <form method="POST" action="/eleman"> {% csrf_token %}
                                 <input hidden value="" name="fieldJson" id="eleman">
                                 <input hidden value="" name="communityId" id="communityId">
+                                <input hidden value="" name="isUpdate" id="isUpdate">
 
                                 <h2 class="formh">Data Type</h2>
                                 <div class="form-group">
@@ -203,7 +204,7 @@
                                     <button type="submit" class="btn addDataType" id="addDataType">
                                         Save Data Type
                                     </button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancelDataType();">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -327,6 +328,7 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 <script src="{% static 'controller/communityDetail.js' %}"></script>
+<script src="{% static 'controller/index.js' %}"></script>
 </body>
 
 </html>

@@ -21,7 +21,7 @@
     {#    Tags input#}
     <link href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet"/>
 
-    <link rel="icon" href="{% static 'css/images/favicon.png' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'css/images/favicon.png' %}" type="image/x-icon"/>
 </head>
 <body>
 
@@ -38,7 +38,7 @@
         <ul class="navbar-nav" style="float: right;" id="mybar">
             {% if not user.is_authenticated %}
                 <li class="nav-item">
-{#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
+                    {#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
                     <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">
                   <span
                           class="glyphicon glyphicon-log-in"></span>
@@ -98,6 +98,137 @@
             </div>
         </form>
     </div>
+
+
+    {# Begin Of Login  #}
+    <div id="newlogin_lightbox" onclick="closenewlogin();"
+         style="display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.85); position: fixed; top: 0px; left: 0px; z-index: 20;">
+    </div>
+    <div id="newlogin_error" onclick="newloginerrorclear();"
+         style="position: fixed; background: rgba(0,0,0,1); width: 500px; left: 50%; padding: 50px; margin: 0px 0px 0px -250px; top: 120px; z-index: 2000; text-align: center; display: none;"></div>
+    <div id="newlogin"
+         style="display: none; width: 1000px; background: rgba(25,25,25,1); border: 0px solid #222; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); position: fixed; top: -2000px; left: 50%; margin: 0px 0px 0px -450px; z-index: 50;">
+        <div id="newlogin_inner">
+            <div style="padding: 0px 0px 0px 0px;" id="newmember_dia">
+                <div style="margin: 0px 0px 0px 0px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-height: 380px;">
+                        <tr>
+                            <td width="50%"
+                                class="tdStyle">
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 40px; color: #fff; margin: 0px 0px 0px 0px; line-height: 25px; text-align: center; padding: 20px 0px 10px 0px;text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Login
+                                </div>
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 20px; color: #fff; line-height: 25px; text-align: center;  margin: 0px 0px 0px 0px; text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Welcome back.
+                                </div>
+                            </td>
+                            <td width="50%">
+                                <div style="padding: 60px 30px 20px 30px;">
+                                    <div id="newlogin_form">
+                                        <center>
+                                            <div style="margin: 0px 0px 10px 0px;">
+                                                <input type="text" class="logininput2" autocomplete="off"
+                                                       placeholder="Your e-mail" spellcheck="false" id="newlogin_email">
+                                            </div>
+                                            <div style="margin: 0px 0px 15px 0px;">
+                                                <input type="password" class="logininput2" placeholder="Password"
+                                                       onkeydown="if(event.keyCode==13) { if(topdialogs != '2') { doNewLogin(); } }"
+                                                       id="newlogin_password">
+                                            </div>
+                                            <div style="margin: 37px 0px 0px 0px;">
+                                                <span class="buttonflat flatgreen" onclick="doNewLogin();"
+                                                      id="signupbutton3">Login</span>
+                                                <span onclick="closenewlogin();"
+                                                      style="color: #aaa; cursor: pointer; padding: 0px 0px 0px 10px; font-size: 14px;"><span
+                                                        style="color: #777; padding: 0px 3px 0px 0px;">or</span> cancel</span>
+                                            </div>
+                                            <div style="margin: 40px 0px 5px 0px; color: #999; font-size: 13px; cursor: pointer;"
+                                                 onclick="closenewlogin(); getaccount();">Need an account? <span
+                                                    style="color: #ddd; padding: 0px 0px 0px 2px;">Sign up here</span>
+                                            </div>
+                                            <div style="margin: 10px 0px 5px 0px; color: #999; font-size: 13px; cursor: pointer;"
+                                                 onclick="location.href='/forgot';">Forgot password? <span
+                                                    style="color: #ddd; padding: 0px 0px 0px 2px;">Click here</span>
+                                            </div>
+                                        </center>
+                                    </div>
+                                    <div style="font-size: 14px; color: #fff; font-family: 'ProximaNovaT-Thin'; display: none;"
+                                         id="newlogin_loggingin">
+                                        <center>
+                                            Logging you in. Please wait...
+                                        </center>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="getaccount_lightbox" onclick="closegetaccount();"
+         style="display: none; width: 100%; height: 100%; background: rgba(0,0,0,0.85); position: fixed; top: 0px; left: 0px; z-index: 20;">
+    </div>
+    <div id="getaccount_error" onclick="signuperrorclear();"
+         style="position: fixed; background: rgba(0,0,0,1); width: 500px; left: 50%; padding: 50px; margin: 0px 0px 0px -250px; top: 120px; z-index: 2000; text-align: center; display: none;"></div>
+    <div id="getaccount"
+         style="display: none; width: 1000px; background: rgba(25,25,25,1); border: 0px solid #222; box-shadow: 0px 0px 20px rgba(0,0,0,0.5); position: fixed; top: -2000px; left: 50%; margin: 0px 0px 0px -450px; z-index: 50;">
+        <input type="hidden" id="getaccount_stage" value="1">
+        <input type="hidden" id="getaccount_emailstored" value="">
+        <div id="getaccount_inner"><input type="hidden" id="create_session" value="fbefd81a8b020efc5bb69fb0f6790dfc">
+            <div style="padding: 0px 0px 0px 0px;" id="newmember_dia">
+                <div style="margin: 0px 0px 0px 0px;">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="min-height: 400px;">
+                        <tbody>
+                        <tr>
+                            <td width="50%"
+                                style="background: url('{% static  "css/images/home.jpg" %}'); background-position: center;">
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 40px; color: #fff; margin: 0px 0px 0px 0px; line-height: 25px; text-align: center; padding: 20px 0px 10px 0px;text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Join Community
+                                </div>
+                                <div style="font-family: ProximaNovaT-Thin; font-size: 20px; color: #fff; line-height: 25px; text-align: center;  margin: 0px 0px 0px 0px; text-shadow: 1px 1px 0px rgba(0,0,0,0.8);">
+                                    Become a Community Member!
+                                </div>
+                            </td>
+                            <td width="50%">
+                                <div style="padding: 80px 30px 40px 30px;">
+                                    <center>
+                                        <div style="margin: 0px 0px 10px 0px;">
+                                            <input type="text" class="logininput2" autocomplete="off"
+                                                   placeholder="Your user name" spellcheck="false"
+                                                   id="getaccount_username">
+                                        </div>
+                                        <div style="margin: 0px 0px 10px 0px;">
+                                            <input type="text" class="logininput2" autocomplete="off"
+                                                   placeholder="Your e-mail" spellcheck="false" id="getaccount_email">
+                                        </div>
+                                        <div style="margin: 0px 0px 15px 0px;">
+                                            <input type="password" class="logininput2" placeholder="Password"
+                                                   id="getaccount_password">
+                                        </div>
+                                        <div style="margin: 37px 0px 0px 0px;">
+                                            <span class="buttonflat flatgreen" onclick="getAccountDo('2');"
+                                                  id="signupbutton3">Sign up</span> <span onclick="closegetaccount();"
+                                                                                          style="color: #aaa; cursor: pointer; padding: 0px 0px 0px 10px; font-size: 14px;"><span
+                                                style="color: #777; padding: 0px 3px 0px 0px;">or</span> cancel</span>
+                                        </div>
+                                        <div style="margin: 35px 0px 5px 0px; color: #999; font-size: 13px; padding: 0px 20px 0px 20px; line-height: 18px;">
+                                            <div style="margin: 10px 0px 5px 0px; color: #999; font-size: 13px; cursor: pointer;"
+                                                 onclick="closegetaccount(); newlogin(); ">Already have an account?
+                                                <span style="color: #ddd; padding: 0px 0px 0px 2px;">Login here</span>
+                                            </div>
+                                        </div>
+                                    </center>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# End Of Login  #}
 </main>
 
 <!-- Include jQuery -->
@@ -113,6 +244,7 @@
 <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 
 <script src="{% static 'controller/newCommunity.js' %}"></script>
+<script src="{% static 'controller/index.js' %}"></script>
 </body>
 
 </html>

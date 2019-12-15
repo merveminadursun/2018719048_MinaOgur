@@ -140,15 +140,23 @@ def newCommunity(request):
 @csrf_exempt
 def newDataType(request):
     if request.method == "POST":
+        isUpdate = request.POST.get('isUpdate')
         fieldJson = request.POST.get('fieldJson')
         communityId = request.POST.get("communityId", "")
-        dt = DataType()
-        dt.community = Community.objects.get(pk=communityId)
-        dt.data_type_name = request.POST.get("dt_name", "")
-        dt.data_type_desc = request.POST.get("dt_description", "")
-        dt.owner = MyUser.objects.get(pk=1)
-        dt.formfields = fieldJson
-        dt.save()
+        if ( isUpdate == "" ):
+            dt = DataType()
+            dt.community = Community.objects.get(pk=communityId)
+            dt.data_type_name = request.POST.get("dt_name", "")
+            dt.data_type_desc = request.POST.get("dt_description", "")
+            dt.owner = MyUser.objects.get(pk=1)
+            dt.formfields = fieldJson
+            dt.save()
+        else:
+            dt = DataType.objects.get(id=isUpdate)
+            dt.data_type_name = request.POST.get("dt_name", "")
+            dt.data_type_desc = request.POST.get("dt_description", "")
+            dt.formfields = fieldJson
+            dt.save()
         # return HttpResponse(dt.pk)
         return redirect('/community/' + communityId)
 

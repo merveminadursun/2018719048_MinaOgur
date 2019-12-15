@@ -22,16 +22,6 @@ function onLoad() {
         var form = document.getElementById("postForm");
         var container = document.createElement("div");
         container.className = "form-group";
-        // if (formFields[0].fields.formfields !== undefined && formFields[0].fields.formfields !== "") {
-        //     var myFormFields = JSON.parse(formFields[0].fields.formfields);
-        // if (myFormFields.theFields !== undefined) {
-        //     var fields = myFormFields.theFields;
-        //
-        //     fields.sort(function (a, b) {
-        //         var pos1 = Number(a.fieldposnr);
-        //         var pos2 = Number(b.fieldposnr);
-        //         return pos1 - pos2;
-        //     });
 
         for (var i = 0; i < fields.length; i++) {
 
@@ -67,8 +57,8 @@ function onLoad() {
                     input = document.createElement("img");
                     input.src = fields[i].fieldvalue;
                     break;
-                    // input.height = "100%";
-                    // input.width = "100%";
+                // input.height = "100%";
+                // input.width = "100%";
                 case "AU":
                     input = document.createElement("audio");
                     input.controls = true;
@@ -78,8 +68,8 @@ function onLoad() {
                     input.className = "embed-responsive-item";
                     input.src = fields[i].fieldvalue;
                     input.allowfullscreen = true;
-                //     lv_inputtype = "file";
-                //     input.className = "custom-file-input"
+                    //     lv_inputtype = "file";
+                    //     input.className = "custom-file-input"
                     break;
                 case "TI":
                     lv_inputtype = "time";
@@ -140,33 +130,57 @@ function onLoad() {
         container = document.createElement("div");
         container.className = "form-group";
 
-        // var input = document.createElement("input");
-        // input.type = "button";
-        // input.value = "Post it!";
-        // input.className = "btnNewPost";
-        // input.id = "newPostBtn";
-        // input.onclick = function () {
-        //     onCreateNewPost();
-        // };
-        //
-        // container.append(input);
-        form.appendChild(container);
 
-
-        // }
     } else {
-        // var input = document.createElement("input");
-        // input.type = "button";
-        // input.value = "Post it!";
-        // input.className = "btnNewPost";
-        // input.id = "newPostBtn";
-        // input.onclick = function () {
-        //     onCreateNewPost();
-        // };
-        //
-        // container.append(input);
-        // form.appendChild(container);
     }
 
-    // }
+}
+
+function editPost() {
+    if (document.getElementById("userId") === null || document.getElementById("postOwner").value !== document.getElementById("userId").value) {
+        showerror("You are not authorized for editing this post.");
+    } else {
+        document.getElementById('postEditBtn').style.display = 'none';
+        document.getElementById('postCancelBtn').style.display = 'block';
+        var form = document.getElementById("postForm");
+        var allElements = form.elements;
+        for (var i = 0, l = allElements.length; i < l; ++i) {
+            // allElements[i].readOnly = true;
+            allElements[i].disabled = false;
+        }
+
+
+        var container = document.createElement("div");
+        container.className = "form-group";
+        container.id ="updatePostBtnDiv"
+        var input = document.createElement("input");
+        input.type = "button";
+        input.value = "Update it!";
+        input.className = "btnNewPost";
+        input.id = "updatePostBtn";
+        input.onclick = function () {
+            onUpdatePost();
+        };
+
+        container.append(input);
+        form.appendChild(container);
+    }
+}
+
+function cancelEdit() {
+    document.getElementById('postEditBtn').style.display = 'block';
+    document.getElementById('postCancelBtn').style.display = 'none';
+    ul = document.getElementById("postForm");
+    node = ul.childNodes[ul.childNodes.length - 1];
+    ul.removeChild(node);
+}
+
+function showerror(msg) {
+    document.getElementById('get_error').style.display = 'block';
+    document.getElementById('get_error').innerHTML = '<div style="font-size: 23px; color:#cccccc; margin: 0px 0px 30px 0px;">' + msg + '</div><div style=""><span onclick="errorpopupclear();" class="buttonflat flatgrey">OK</span></div>';
+}
+
+function errorpopupclear() {
+    document.getElementById('get_error').style.display = 'none';
+    document.getElementById('get_error').innerHTML = '';
 }

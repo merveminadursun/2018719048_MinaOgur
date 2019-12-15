@@ -1,4 +1,5 @@
 function onLoad() {
+    $("#isUpdate").val("");
     console.log(communityTags);
     if (communityTags.length > 0) {
         if (communityTags[0].fields.tag_info !== undefined) {
@@ -39,6 +40,7 @@ var csrftoken = getCookie('csrftoken');
 
 $('#newDataType').on('click', function (e) {
     $("#myTable").find("tr:gt(1)").remove();
+    $("#isUpdate").val("");
     document.getElementById("dt_name").value = "";
     document.getElementById("dt_description").value = "";
     //your awesome code here
@@ -228,6 +230,7 @@ function editDataType(oDataTypeId) {
 
     console.dir(oDataTypeId);
     // document.getElementById("dt_name").value === "EN"
+     $("#isUpdate").val(oDataTypeId);
     jQuery.ajax({
         type: "GET", url: "/getdataType",
         data: {"dt_id": oDataTypeId},
@@ -326,4 +329,8 @@ function addDataTypeFields(oFormFields) {
         newRow.append(cols);
         $("#myTable").append(newRow);
     }
+}
+
+function cancelDataType() {
+    $("#isUpdate").val("");
 }

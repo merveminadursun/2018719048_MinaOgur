@@ -6,7 +6,9 @@
       <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/postDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/postDetail.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/newCommunity.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/newCommunity.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/newPost.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/postDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/postDetail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -126,7 +128,7 @@
       <workItem from="1576222577810" duration="7289000" />
       <workItem from="1576326370162" duration="11997000" />
       <workItem from="1576356879577" duration="3018000" />
-      <workItem from="1576401526390" duration="14504000" />
+      <workItem from="1576401526390" duration="20024000" />
     </task>
     <servers />
   </component>
