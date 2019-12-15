@@ -18,7 +18,7 @@ $('#com_name').keypress(function (event) {
                             for (var i = 0; i < result.results.bindings.length; i++) {
                                 if (result.results.bindings[i].itemDescription !== undefined) {
                                     if (!result.results.bindings[i].itemDescription.value.includes("disambiguation")
-                                        || result.results.bindings[i].itemDescription.value !== "") {
+                                        && result.results.bindings[i].itemDescription.value !== "") {
                                         tagValue = result.results.bindings[i].itemDescription.value
                                         $('#com_tags').tagsinput('add', tagValue);
 

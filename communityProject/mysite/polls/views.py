@@ -12,6 +12,7 @@ import json
 import datetime
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
@@ -119,6 +120,7 @@ def newCommunity(request):
         tagsJson = request.POST.get('tagsJson')
         cmn_tag = CommunityTag()
         cmn_tag.community = cmn
+        cmn_tag.post = 0
         cmn_tag.tag_info = tagsJson
         cmn_tag.save()
 
@@ -187,24 +189,45 @@ def createNewPost(request):
     pt.owner = MyUser.objects.get(pk=1)
     pt.create_date = timezone.now()
     pt.save()
+
+    tagsJson = request.POST.get('tagsJson')
+    cmn_tag = CommunityTag()
+    cmn_tag.post = pt.id
+    cmn_tag.community = pt.community
+    cmn_tag.tag_info = tagsJson
+    cmn_tag.save()
+
     return HttpResponse(request)
 
 
 def getPost(request, id):
     # print(id)
-    postDetail = Post.objects.filter(id=id)
-    print("===================================================")
-    print(dir(postDetail))
-    # tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id).only("tag_info"))
-    return render(request, "newPost.html", {"postDetail": postDetail})
+    postDetail = get_object_or_404(Post, pk=id)
+    # print("===================================================")
+    # print(dir(postDetail))
+    # # tmpObj = serializers.serialize("json", postDetail["post_data"])
+    # print("===================================================")
+    communityInfo = get_object_or_404(Community, pk=postDetail.__getattribute__("community_id"))
+    dataTypeInfo = get_object_or_404(DataType, pk=postDetail.__getattribute__("data_type_id"))
+    print(postDetail.__getattribute__("post_data"))
+    # postFields = json.loads(postDetail.__getattribute__("post_data"))
+    # postFields = json.loads(tmpObj)
+    tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=communityInfo, post=id).only("tag_info"))
+    postTags = json.loads(tmpObj)
+    print(postTags)
+    return render(request, "postDetail.html", {"postDetail": postDetail,
+                                               "postFields" : postDetail.__getattribute__("post_data"),
+                                               "communityInfo": communityInfo,
+                                               "dataTypeInfo": dataTypeInfo,
+                                               "postTags": postTags })
 
 
 def getCommunity(request, id):
     communityDetail = get_object_or_404(Community, pk=id)
     communityDataTypes = DataType.objects.filter(community=id)
     communityPosts = Post.objects.filter(community=id)
-    print(CommunityTag.objects.filter(community_id=id))
-    tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id).only("tag_info"))
+    print(CommunityTag.objects.filter(community_id=id, post=0))
+    tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=id, post=0).only("tag_info"))
     communityTags = json.loads(tmpObj)
     # communityTags = JsonResponse({"tags": json.dumps(CommunityTag.objects.filter(community_id=id))}, safe=False)
     return render(request, "communityDetail.html", {"communityDetail": communityDetail,
@@ -240,5 +263,9 @@ def save_files(request):
     file = request.FILES.get('myfile')
     file_name = default_storage.save(file.name, file)
     #  Reading file from storage
-    file_url = default_storage.url(file_name) #use file_url for reading
+    # file_url = settings.MEDIA_URL + default_storage.url(file_name) #use file_url for reading
+    file_url = settings.MEDIA_URL + file_name #use file_url for reading
+    print("/////////////////////////////////////////")
+    print(file_url)
+    print(default_storage.url(file_name))
     return JsonResponse(file_url, safe=False)

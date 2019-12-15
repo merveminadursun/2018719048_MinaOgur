@@ -9,9 +9,10 @@ class WikidataService:
     def query(query):
         # send any sparql query to the wikidata query service and get full result back
         # here we use an example that counts the number of humans
+        # ?item rdfs:label "%s"@en.
         sparql_query = """
         SELECT distinct ?itemDescription WHERE{  
-          ?item rdfs:label "%s"@en.  
+          ?item rdfs:label "%s"@en.
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
         }
         """ % query

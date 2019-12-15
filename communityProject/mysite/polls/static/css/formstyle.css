@@ -35,6 +35,16 @@ h2, h3 {
     background-color: inherit;
 }
 
+.searchButton {
+    background-color: inherit;
+    /*color: #cccccc;*/
+}
+
+.zglyphicon {
+    color: #cccccc;
+}
+
+
 .addfields {
     margin-left: 20px;
     margin-right: 20px;

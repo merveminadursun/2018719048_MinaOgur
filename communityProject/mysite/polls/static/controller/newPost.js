@@ -198,6 +198,18 @@ function onCreateNewPost() {
     $("#formFields").val(formFields);
 
 
+    var tagList = $('#post_tags').tagsinput('items');
+
+    for (var i = 0; i < tagList.length; i++) {
+        var obj = JSON.parse(tagsJson);
+        obj['theTags'].push({
+            "tag": tagList[i]
+        });
+        tagsJson = JSON.stringify(obj);
+    }
+    $("#postTags").val(tagsJson);
+
+
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
@@ -213,7 +225,8 @@ function onCreateNewPost() {
         data: {
             "formFields": JSON.stringify(formFields),
             "post_name": document.getElementById("post_name").value,
-            "post_desc": document.getElementById("post_description").value
+            "post_desc": document.getElementById("post_description").value,
+            "tagsJson": tagsJson
         },
         success:
             function (result) {
@@ -225,7 +238,8 @@ function onCreateNewPost() {
                 window.location.href = "/community/" + communityId;
             },
         error: function (result) {
-            alert("hata aldık");
+            showerror( "Error during post creation! Details: " + result );
+            // alert("hata aldık");
         }
     });
 
@@ -241,5 +255,49 @@ function errorpopupclear() {
     document.getElementById('get_error').style.display = 'none';
     document.getElementById('get_error').innerHTML = '';
 }
+
+
+$('#post_name').keypress(function (event) {
+    //event.preventDefault(); // preventing submition
+
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if (keycode == '13') {
+        event.preventDefault(); // preventing submition
+        getPostTags();
+    }
+});
+
+$("#addPostTag").on("click", function () {
+    getPostTags();
+
+});
+
+function getPostTags() {
+    jQuery.ajax({
+        type: "POST", url: "/tags",
+        data: {"query": $('#post_name').val()},
+        success:
+            function (result) {
+                tagValue = "";
+                console.log(result);
+                if (result.results !== undefined) {
+                    if (result.results.bindings !== undefined && result.results.bindings.length > 0) {
+                        var tag_cnt = 0;
+                        for (var i = 0; i < result.results.bindings.length; i++) {
+                            if (result.results.bindings[i].itemDescription !== undefined) {
+                                if (!result.results.bindings[i].itemDescription.value.includes("disambiguation")
+                                    && result.results.bindings[i].itemDescription.value !== "") {
+                                    tagValue = result.results.bindings[i].itemDescription.value
+                                    $('#post_tags').tagsinput('add', tagValue);
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    });
+}
+
 
 

@@ -67,6 +67,7 @@ class CommunityFollower(models.Model):
 class CommunityTag(models.Model):
     tag_desc = models.CharField(max_length=100)
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+    post = models.IntegerField()
     tag_info = JSONField(default="")
 
 

@@ -30,7 +30,9 @@
     var fieldJson = '{ "theFields" : [] }';
     var formFields =
     {{ formFields|safe }}
+    var tagsJson = '{ "theTags" : [] }';
 </script>
+
 
 <nav class="navbar navbar-expand-md">
     <a class="navbar-brand" href="/">Community</a>
@@ -90,6 +92,7 @@
             <div class="container newCommunity">
                 <form id="postForm"> {% csrf_token %}
                     <input hidden value="" name="formFields" id="formFields">
+                    <input hidden value="" name="tagsJson" id="postTags">
                     <div class="form-group">
                         <label for="post_name">Title</label>
                         <input type="text" id="post_name" class="floatLabel" name="post_name" width="100%"
@@ -102,6 +105,9 @@
                     </div>
                     <div class="form-group">
                         <label for="com_tags">Semantic Tags</label>
+                        <button type="button" class="btn searchButton"
+                                                        id="addPostTag"><span
+                                                        class="glyphicon zglyphicon glyphicon-search"> </span></button>
                         <input type="text" id="post_tags" class="floatLabel" name="com_tags" data-role="tagsinput"
                                width="100%">
                     </div>
