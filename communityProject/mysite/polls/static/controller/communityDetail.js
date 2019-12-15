@@ -38,7 +38,9 @@ function csrfSafeMethod(method) {
 var csrftoken = getCookie('csrftoken');
 
 $('#newDataType').on('click', function (e) {
-
+    $("#myTable").find("tr:gt(1)").remove();
+    document.getElementById("dt_name").value = "";
+    document.getElementById("dt_description").value = "";
     //your awesome code here
 })
 var formFieldsJson = {
@@ -118,6 +120,28 @@ $(document).ready(function () {
 
 
     $("table").on("click", ".ibtnDel", function (event) {
+        console.log(event);
+        var fields = JSON.parse(fieldJson);
+        var fieldList = fields["theFields"];
+        jQuery.each(fieldList, function (index) {
+            if (fieldList[index] && index === event.currentTarget.tabIndex) {
+                fieldList.splice(index, 1);
+            }
+        });
+
+        fieldJson = '{ "theFields" : [] }';
+        var obj = JSON.parse(fieldJson);
+        for (var i = 0; i < fieldList.length; i++) {
+            obj['theFields'].push({
+                "fieldposnr": fieldList[i].fieldposnr,
+                "fieldlabel": fieldList[i].fieldlabel,
+                "fieldtype": fieldList[i].fieldtype,
+                "isRequired": fieldList[i].isRequired,
+                "enumvals": fieldList[i].enumvals
+            });
+        }
+
+        fieldJson = JSON.stringify(obj);
         $(this).closest("tr").remove();
         counter -= 1;
     });
@@ -159,7 +183,7 @@ function checkFormFields() {
             }
         }
     }
-    return  true;
+    return true;
 }
 
 $("#deactivateCom").click(function () {
@@ -198,4 +222,108 @@ function onSelectFType() {
         $("#enum_vals").tagsinput('removeAll');
     }
 
+}
+
+function editDataType(oDataTypeId) {
+
+    console.dir(oDataTypeId);
+    // document.getElementById("dt_name").value === "EN"
+    jQuery.ajax({
+        type: "GET", url: "/getdataType",
+        data: {"dt_id": oDataTypeId},
+        async: false,
+        success:
+            function (result) {
+                console.dir(result);
+                document.getElementById("dt_name").value = result[0].data_type_name;
+                document.getElementById("dt_description").value = result[0].data_type_desc;
+                addDataTypeFields(result[0].formfields);
+            },
+        error:
+            function (result) {
+                console.dir(result);
+            }
+    });
+
+}
+
+function addDataTypeFields(oFormFields) {
+    $("#myTable").find("tr:gt(1)").remove();
+
+    var flds = JSON.parse(oFormFields);
+
+    console.log(flds['theFields']);
+
+    var fieldList = flds['theFields'];
+
+
+    var lv_fieldtype = "";
+    for (var i = 0; i < fieldList.length; i++) {
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<th>' + fieldList[i].fieldposnr + '</th>';
+        cols += '<th>' + fieldList[i].fieldlabel + '</th>';
+
+        switch (fieldList[i].fieldtype) {
+            case "TE":
+                lv_fieldtype = "Text field";
+                break;
+            case "TA":
+                lv_fieldtype = "Text area";
+                break;
+            case "DA":
+                lv_fieldtype = "Date";
+                break;
+            case "TI":
+                lv_fieldtype = "Time";
+                break;
+            case "IN":
+                lv_fieldtype = "Integer";
+                break;
+            case "DE":
+                lv_fieldtype = "Decimal";
+                break;
+            case "IM":
+                lv_fieldtype = "Image";
+                break;
+            case "VI":
+                lv_fieldtype = "Video";
+                break;
+            case "AU":
+                lv_fieldtype = "Audio";
+                break;
+            case "UR":
+                lv_fieldtype = "URI";
+                break;
+            case "LO":
+                lv_fieldtype = "Location";
+                break;
+            case "EN":
+                lv_fieldtype = "Enumerated";
+                break;
+        }
+        cols += '<th>' + lv_fieldtype + '</th>';
+
+
+        var enumString = "";
+        if (fieldList[i].fieldtype === "EN") {
+            var enums = JSON.parse(fieldList[i].enumvals);
+            var enumList = enums["enums"];
+
+            for (var j = 0; j < enumList.length; j++) {
+                if (j == enumList.length - 1) {
+                    enumString += enumList[j].enum
+                } else {
+                    enumString += enumList[j].enum + ", ";
+                }
+            }
+
+        }
+        cols += '<th>' + enumString + '</th>';
+        var lv_isReq = fieldList[i].isRequired === true ? "Yes" : "No";
+        cols += '<th>' + lv_isReq + '</th>';
+        cols += '<td><input type="button" class="ibtnDel btn btn-md btn-danger "  value="Delete"></td>';
+        newRow.append(cols);
+        $("#myTable").append(newRow);
+    }
 }

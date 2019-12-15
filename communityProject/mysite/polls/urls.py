@@ -17,6 +17,7 @@ urlpatterns = [
     path("checkuser", views.check_username),
     path("savefile", views.save_files),
     path('post/<id>', views.getPost, name="postDetail"),
+    path('getdataType', views.getDataType),
     path('c/<url>/', include([
         path('', views.getCommunity),
         path('members/', views.getCommunityMembers),

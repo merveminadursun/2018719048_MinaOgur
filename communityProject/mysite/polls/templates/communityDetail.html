@@ -21,7 +21,7 @@
 
     <link href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet"/>
 
-    <link rel="icon" href="{% static 'css/images/favicon.png' %}" type="image/x-icon" />
+    <link rel="icon" href="{% static 'css/images/favicon.png' %}" type="image/x-icon"/>
 
 </head>
 <body onload="onLoad()">
@@ -29,6 +29,7 @@
 <script>
     var fieldJson = '{ "theFields" : [] }';
     var communityTags = {{ communityTags|safe }};
+    {#var communityDataTypes = {{ communityDataTypes|safe }}; #}
 </script>
 
 <nav class="navbar navbar-expand-md">
@@ -40,7 +41,7 @@
         <ul class="navbar-nav" style="float: right;" id="mybar">
             {% if not user.is_authenticated %}
                 <li class="nav-item">
-{#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
+                    {#                    <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">#}
                     <a class="nav-link" href="javascript:void(0);" onclick="newlogin();" id="loginId">
                   <span
                           class="glyphicon glyphicon-log-in"></span>
@@ -115,7 +116,7 @@
 
         {#    Begin of Data Type Adding #}
         <div class="form-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+            <button id="newDataType" type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
                 New Data Type
             </button>
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
@@ -200,7 +201,7 @@
                                 </div>
                                 <div class="mymodalinner" style="align-content: center">
                                     <button type="submit" class="btn addDataType" id="addDataType">
-                                        Add Data Type
+                                        Save Data Type
                                     </button>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                 </div>
@@ -255,6 +256,13 @@
                                                         <a href="{{ DataTypes.community_id }}/{{ DataTypes.id }}/newPost"
                                                            class="btnCommView">
                                                             Create Post!
+                                                        </a>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                            onclick="editDataType({{ DataTypes.id }});">
+                                                        <a class="btnCommView" data-toggle="modal"
+                                                           data-target=".bd-example-modal-lg">
+                                                            Edit
                                                         </a>
                                                     </button>
                                                 </div>

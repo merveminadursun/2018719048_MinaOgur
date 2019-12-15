@@ -66,6 +66,7 @@ function onLoad() {
                 case "IM":
                     input = document.createElement("img");
                     input.src = fields[i].fieldvalue;
+                    break;
                     // input.height = "100%";
                     // input.width = "100%";
                 case "AU":

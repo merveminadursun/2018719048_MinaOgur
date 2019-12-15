@@ -235,6 +235,13 @@ def getCommunity(request, id):
                                                     "communityTags": communityTags,
                                                     "communityPosts": communityPosts})
 
+def getDataType(request):
+    dt_id = request.GET.get("dt_id", "")
+    # print("///////////" + dt_id)
+    # communityDataTypes = get_object_or_404( DataType, pk=dt_id)
+    communityDataTypes = list(DataType.objects.filter(pk=dt_id).values())
+    # a = serializers.serialize("json", communityDataTypes)
+    return JsonResponse(communityDataTypes, safe=False)
 
 def getCommunityMembers(request, url):
     data = list(CommunityService.getCommunityMembers(url))
