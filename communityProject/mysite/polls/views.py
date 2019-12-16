@@ -208,6 +208,23 @@ def createNewPost(request):
     return HttpResponse(request)
 
 
+@csrf_exempt
+def updatePost(request):
+    formData = json.loads(request.POST.get("formFields", ""))
+    print(formData)
+    formDataDict = json.dumps(formData[0]["fields"])
+    print("///////////////")
+    print(formDataDict)
+    formFieldsData = json.loads(formDataDict)
+    formFields = formFieldsData["formfields"]
+    pt = Post.objects.get(id=request.POST.get("post_id", ""))
+    pt.post_name = request.POST.get("post_name", "")
+    pt.post_desc = request.POST.get("post_desc", "")
+    pt.post_data = formFields
+    pt.save()
+
+    return HttpResponse(request)
+
 def getPost(request, id):
     # print(id)
     postDetail = get_object_or_404(Post, pk=id)

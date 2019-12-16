@@ -11,6 +11,7 @@ urlpatterns = [
     path('deactivateCommunity', views.deactivateCommunity),
     path('community/<cmn_id>/<dt_id>/newPost', views.newPost, name="newPost"),
     path('createNewPost', views.createNewPost),
+    path('updatePost', views.updatePost),
     path('community/post/<id>', views.getPost, name="newPost"),
     path('login', views.my_login),
     path('signup', views.my_signup),

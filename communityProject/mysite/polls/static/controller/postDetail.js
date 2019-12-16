@@ -14,6 +14,9 @@ function onLoad() {
     }
 
     console.log(postFields);
+
+    // postFields = postFields.replaceAll("\"(.+)\"", "$1");
+    // postFields = postFields.slice(1,-1);
     console.log(postFields["theFields"]);
     var fields = postFields["theFields"];
 
@@ -152,7 +155,7 @@ function editPost() {
 
         var container = document.createElement("div");
         container.className = "form-group";
-        container.id ="updatePostBtnDiv"
+        container.id = "updatePostBtnDiv"
         var input = document.createElement("input");
         input.type = "button";
         input.value = "Update it!";
@@ -173,6 +176,13 @@ function cancelEdit() {
     ul = document.getElementById("postForm");
     node = ul.childNodes[ul.childNodes.length - 1];
     ul.removeChild(node);
+
+    var form = document.getElementById("postForm");
+        var allElements = form.elements;
+        for (var i = 0, l = allElements.length; i < l; ++i) {
+            // allElements[i].readOnly = true;
+            allElements[i].disabled = true;
+        }
 }
 
 function showerror(msg) {
@@ -180,7 +190,117 @@ function showerror(msg) {
     document.getElementById('get_error').innerHTML = '<div style="font-size: 23px; color:#cccccc; margin: 0px 0px 30px 0px;">' + msg + '</div><div style=""><span onclick="errorpopupclear();" class="buttonflat flatgrey">OK</span></div>';
 }
 
+function showsuccess(msg) {
+    document.getElementById('get_success').style.display = 'block';
+    document.getElementById('get_success').innerHTML = '<div style="font-size: 23px; color:#cccccc; margin: 0px 0px 30px 0px;">' + msg + '</div><div style=""><span onclick="successpopupclear();" class="buttonflat flatgrey">OK</span></div>';
+}
+
+
+function successpopupclear() {
+    document.getElementById('get_success').style.display = 'none';
+    document.getElementById('get_success').innerHTML = '';
+    cancelEdit();
+}
+
 function errorpopupclear() {
     document.getElementById('get_error').style.display = 'none';
     document.getElementById('get_error').innerHTML = '';
 }
+
+function onUpdatePost() {
+    console.log(postFields);
+
+    for (var i = 0; i < postFields["theFields"].length; i++) {
+        if (postFields["theFields"][i].fieldtype === "IM" || postFields["theFields"][i].fieldtype === "AU" || postFields["theFields"][i].fieldtype === "VI") {
+
+        } else {
+            postFields["theFields"][i].fieldvalue = document.getElementById(postFields["theFields"][i].fieldlabel).value;
+        }
+
+    }
+
+
+
+    var formFields = [];
+    formFields.push({
+        "fields": {
+            "formfields" : JSON.stringify(postFields)
+        }
+    });
+
+    // formFields[0].fields = postFields;
+    var tagList = $('#post_tags').tagsinput('items');
+    var tagsJson = '{ "theTags" : [] }';
+    for (var i = 0; i < tagList.length; i++) {
+        var obj = JSON.parse(tagsJson);
+        obj['theTags'].push({
+            "tag": tagList[i]
+        });
+        tagsJson = JSON.stringify(obj);
+    }
+    $("#postTags").val(tagsJson);
+
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    jQuery.ajax({
+        type: "POST", url: "/updatePost",
+        async: false,
+        data: {
+            "formFields": JSON.stringify(formFields),
+            "post_id": document.getElementById("post_id").value,
+            "post_name": document.getElementById("post_name").value,
+            "post_desc": document.getElementById("post_description").value,
+            "tagsJson": tagsJson
+        },
+        success:
+            function (result) {
+                // $('.alert-success').show();
+                // $("#myModal").modal();
+                // success mesajı göstermek istiyorum, yapamadım
+                showsuccess("Updated successfully!");
+                // setTimeout(function () {
+                //     showsuccess("Updated successfully!");
+                // }, 5000);
+
+
+                // communityId = document.getElementById("communityId").value;
+                // window.location.href = "/community/" + communityId;
+            },
+        error: function (result) {
+            showerror("Error during update! Details: " + result);
+            // alert("hata aldık");
+        }
+    });
+
+
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+var csrftoken = getCookie('csrftoken');
