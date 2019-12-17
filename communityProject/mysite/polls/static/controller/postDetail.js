@@ -94,7 +94,7 @@ function onLoad() {
                     datalist.children = list;
 
                     var list = "";
-                    var enumList = JSON.parse(fields[0].enumvals);
+                    var enumList = JSON.parse(fields[i].enumvals);
                     for (var j = 0; j < enumList.enums.length; j++) {
                         list += '<option value="' + enumList.enums[j].enum + '"></option>';
                     }

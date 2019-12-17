@@ -125,11 +125,13 @@ $(document).ready(function () {
         console.log(event);
         var fields = JSON.parse(fieldJson);
         var fieldList = fields["theFields"];
-        jQuery.each(fieldList, function (index) {
-            if (fieldList[index] && index === event.currentTarget.tabIndex) {
-                fieldList.splice(index, 1);
-            }
-        });
+        var deletedRowInd = $(this).closest("tr").index() - 1;
+        fieldList.splice(deletedRowInd, 1);
+        // jQuery.each(fieldList, function (index) {
+        //     if (fieldList[index] && index === event.originalEvent.which) {
+        //         fieldList.splice(index, 1);
+        //     }
+        // });
 
         fieldJson = '{ "theFields" : [] }';
         var obj = JSON.parse(fieldJson);
@@ -227,10 +229,10 @@ function onSelectFType() {
 }
 
 function editDataType(oDataTypeId) {
-
+    fieldJson = '{ "theFields" : [] }';
     console.dir(oDataTypeId);
     // document.getElementById("dt_name").value === "EN"
-     $("#isUpdate").val(oDataTypeId);
+    $("#isUpdate").val(oDataTypeId);
     jQuery.ajax({
         type: "GET", url: "/getdataType",
         data: {"dt_id": oDataTypeId},
@@ -241,6 +243,7 @@ function editDataType(oDataTypeId) {
                 document.getElementById("dt_name").value = result[0].data_type_name;
                 document.getElementById("dt_description").value = result[0].data_type_desc;
                 addDataTypeFields(result[0].formfields);
+
             },
         error:
             function (result) {
@@ -261,7 +264,19 @@ function addDataTypeFields(oFormFields) {
 
 
     var lv_fieldtype = "";
+    var obj = JSON.parse(fieldJson);
     for (var i = 0; i < fieldList.length; i++) {
+
+
+        obj['theFields'].push({
+            "fieldposnr": fieldList[i].fieldposnr,
+            "fieldlabel": fieldList[i].fieldlabel,
+            "fieldtype": fieldList[i].fieldtype,
+            "isRequired": fieldList[i].isRequired,
+            "enumvals": fieldList[i].enumvals
+        });
+
+
         var newRow = $("<tr>");
         var cols = "";
         cols += '<th>' + fieldList[i].fieldposnr + '</th>';
@@ -329,6 +344,7 @@ function addDataTypeFields(oFormFields) {
         newRow.append(cols);
         $("#myTable").append(newRow);
     }
+    fieldJson = JSON.stringify(obj);
 }
 
 function cancelDataType() {

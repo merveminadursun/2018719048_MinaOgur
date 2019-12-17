@@ -97,8 +97,8 @@ def check_username(request):
 def newCommunity(request):
     if request.method == "POST":
         cmn = Community()
-        usr = MyUser()
-        usr.id = 1
+        usr = MyUser.objects.get(username=request.user)
+        # usr.id = 1
         cmn.community_name = request.POST.get("com_name", "")
         cmn.community_desc = request.POST.get("com_description", "")
         cmn.create_date = timezone.now()
@@ -148,7 +148,7 @@ def newDataType(request):
             dt.community = Community.objects.get(pk=communityId)
             dt.data_type_name = request.POST.get("dt_name", "")
             dt.data_type_desc = request.POST.get("dt_description", "")
-            dt.owner = MyUser.objects.get(pk=1)
+            dt.owner = MyUser.objects.get(username=request.user)
             dt.formfields = fieldJson
             dt.save()
         else:
@@ -194,7 +194,7 @@ def createNewPost(request):
     pt.post_name = request.POST.get("post_name", "")
     pt.post_desc = request.POST.get("post_desc", "")
     pt.post_data = formFields
-    pt.owner = MyUser.objects.get(pk=1)
+    pt.owner = MyUser.objects.get(username=request.user)
     pt.create_date = timezone.now()
     pt.save()
 
