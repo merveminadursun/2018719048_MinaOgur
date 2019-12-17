@@ -43,6 +43,10 @@ function onLoad() {
                         case "TE":
                             lv_inputtype = "text";
                             break;
+                        case "TA":
+                            input = document.createElement("textarea");
+                            input.setAttribute("rows", "3");
+                            break;
                         case "DA":
                             lv_inputtype = "date";
                             break;
@@ -81,6 +85,10 @@ function onLoad() {
                     input.className = "floatLabel"
                     input.name = fields[i].fieldlabel;
                     input.width = "100%";
+
+                    if (fields[i].isRequired === true || fields[i].isRequired === 'Yes') {
+                        input.required = true;
+                    }
 
                     container.append(input);
 
@@ -156,6 +164,35 @@ var csrftoken = getCookie('csrftoken');
 
 function onCreateNewPost() {
 
+
+    if (document.getElementById("post_name").value === "") {
+        showerror("Post title cannot be empty!");
+        return;
+    }
+
+    if (document.getElementById("post_description").value === "") {
+        showerror("Post description cannot be empty!");
+        return;
+    }
+
+    if (document.getElementById("post_tags").value === "") {
+        showerror("Semantic tags cannot be empty!");
+        return;
+    }
+
+
+    var form = document.getElementById("postForm");
+    var allElements = form.elements;
+    for (var i = 0, l = allElements.length; i < l; ++i) {
+        // allElements[i].readOnly = true;
+        debugger;
+        if (allElements[i].required === true && allElements[i].value.trim() === "") {
+            showerror(allElements[i].id + " cannot be empty!");
+            return;
+
+        }
+
+    }
     var obj = JSON.parse(formFields[0].fields.formfields);
     for (var i = 0; i < obj.theFields.length; i++) {
 
@@ -238,7 +275,7 @@ function onCreateNewPost() {
                 window.location.href = "/community/" + communityId;
             },
         error: function (result) {
-            showerror( "Error during post creation! Details: " + result );
+            showerror("Error during post creation! Details: " + result);
             // alert("hata aldık");
         }
     });
@@ -287,7 +324,8 @@ function getPostTags() {
                             if (result.results.bindings[i].itemDescription !== undefined) {
                                 if (!result.results.bindings[i].itemDescription.value.includes("disambiguation")
                                     && result.results.bindings[i].itemDescription.value !== "") {
-                                    tagValue = result.results.bindings[i].itemDescription.value
+                                    tagValue = result.results.bindings[i].item.value.substring(result.results.bindings[i].item.value.lastIndexOf('/') + 1) +
+                                        ": " + result.results.bindings[i].itemDescription.value
                                     $('#post_tags').tagsinput('add', tagValue);
 
                                 }

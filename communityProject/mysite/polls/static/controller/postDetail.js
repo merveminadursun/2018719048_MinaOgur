@@ -53,6 +53,10 @@ function onLoad() {
                 case "TE":
                     lv_inputtype = "text";
                     break;
+                case "TA":
+                    input = document.createElement("textarea");
+                    input.setAttribute("rows", "3");
+                    break;
                 case "DA":
                     lv_inputtype = "date";
                     break;
@@ -178,11 +182,11 @@ function cancelEdit() {
     ul.removeChild(node);
 
     var form = document.getElementById("postForm");
-        var allElements = form.elements;
-        for (var i = 0, l = allElements.length; i < l; ++i) {
-            // allElements[i].readOnly = true;
-            allElements[i].disabled = true;
-        }
+    var allElements = form.elements;
+    for (var i = 0, l = allElements.length; i < l; ++i) {
+        // allElements[i].readOnly = true;
+        allElements[i].disabled = true;
+    }
 }
 
 function showerror(msg) {
@@ -220,11 +224,10 @@ function onUpdatePost() {
     }
 
 
-
     var formFields = [];
     formFields.push({
         "fields": {
-            "formfields" : JSON.stringify(postFields)
+            "formfields": JSON.stringify(postFields)
         }
     });
 

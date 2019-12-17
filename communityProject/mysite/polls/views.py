@@ -39,7 +39,7 @@ def my_signup(request):
     usr.username = request.POST.get("username", "")
     usr.password = request.POST.get("password", "")
     usr.email = request.POST.get("email", "")
-    role = UserRole(id=3)  # default user role shoul be 3 = default user role
+    role = UserRole(id=3)  # default user role should be 3 = default user role
     usr.role = role
     usr.save()
     User.objects.create_user(usr.username , usr.email, usr.password)

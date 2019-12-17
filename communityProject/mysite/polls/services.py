@@ -11,7 +11,7 @@ class WikidataService:
         # here we use an example that counts the number of humans
         # ?item rdfs:label "%s"@en.
         sparql_query = """
-        SELECT distinct ?itemDescription WHERE{  
+        SELECT distinct ?item ?itemDescription WHERE{  
           ?item rdfs:label "%s"@en.
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
         }

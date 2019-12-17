@@ -19,7 +19,8 @@ $('#com_name').keypress(function (event) {
                                 if (result.results.bindings[i].itemDescription !== undefined) {
                                     if (!result.results.bindings[i].itemDescription.value.includes("disambiguation")
                                         && result.results.bindings[i].itemDescription.value !== "") {
-                                        tagValue = result.results.bindings[i].itemDescription.value
+                                        tagValue = result.results.bindings[i].item.value.substring(result.results.bindings[i].item.value.lastIndexOf('/') + 1) +
+                                        ": " + result.results.bindings[i].itemDescription.value
                                         $('#com_tags').tagsinput('add', tagValue);
 
                                     }
