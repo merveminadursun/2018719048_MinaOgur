@@ -329,6 +329,12 @@ function getPostTags() {
                                     $('#post_tags').tagsinput('add', tagValue);
 
                                 }
+                            } else {
+                                if (result.results.bindings[i].item!== undefined) {
+                                    tagValue = result.results.bindings[i].item.value.substring(result.results.bindings[i].item.value.lastIndexOf('/') + 1) ;
+                                    $('#post_tags').tagsinput('add', tagValue);
+                                }
+
                             }
                         }
                     }
