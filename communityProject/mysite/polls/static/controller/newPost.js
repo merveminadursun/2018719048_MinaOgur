@@ -68,15 +68,15 @@ function onLoad() {
                             break;
                         case "EN":
                             var datalist = document.createElement("datalist");
-                            datalist.id = "myEnumList";
-                            datalist.children = list;
-
+                            datalist.id = "myEnumList" + i;
                             var list = "";
                             var enumList = JSON.parse(fields[i].enumvals);
                             for (var j = 0; j < enumList.enums.length; j++) {
                                 list += '<option value="' + enumList.enums[j].enum + '"></option>';
                             }
-                            input.setAttribute("list", "myEnumList");
+
+                            datalist.children = list;
+                            input.setAttribute("list", datalist.id);
                             break;
                     }
 
@@ -98,7 +98,7 @@ function onLoad() {
                     form.appendChild(container);
 
                     if (fields[i].fieldtype == "EN") {
-                        var my_list = document.getElementById("myEnumList");
+                        var my_list = document.getElementById(datalist.id);
                         my_list.innerHTML = list;
                     }
 
