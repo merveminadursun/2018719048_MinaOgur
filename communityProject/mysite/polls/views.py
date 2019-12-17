@@ -223,6 +223,11 @@ def updatePost(request):
     pt.post_data = formFields
     pt.save()
 
+    tagsJson = request.POST.get('tagsJson')
+    cmn_tag = CommunityTag.objects.get(post=request.POST.get("post_id", ""))
+    cmn_tag.tag_info = tagsJson
+    cmn_tag.save()
+
     return HttpResponse(request)
 
 def getPost(request, id):

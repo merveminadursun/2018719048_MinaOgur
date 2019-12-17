@@ -10,18 +10,25 @@ class WikidataService:
         # send any sparql query to the wikidata query service and get full result back
         # here we use an example that counts the number of humans
         # ?item rdfs:label "%s"@en.
+        # SELECT  distinct ?item ?itemDescription
+        # WHERE {
+        # ?item rdfs: label ?itemDescription.
+        #     FILTER(CONTAINS(LCASE(?itemDescription), "%s" @ en)).
+        # }   limit 100
+
         sparql_query = """
-        SELECT distinct ?item ?itemDescription WHERE{  
+       SELECT distinct ?item ?itemDescription WHERE{  
           ?item rdfs:label "%s"@en.
           SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }  
         }
         """ % query
         return return_sparql_query_results(sparql_query)
 
+
 class UserService:
 
     def login(email, password):
-        return MyUser.objects.filter(email=email, password=password) .values()
+        return MyUser.objects.filter(email=email, password=password).values()
 
     def signup(data):
         return MyUser.objects.filter(id=data.id).values()
