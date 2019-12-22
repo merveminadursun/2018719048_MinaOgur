@@ -6,6 +6,7 @@ app_name = "polls"
 urlpatterns = [
     path('', views.index, name='index'),
     path('community/<id>', views.getCommunity, name="communityDetail"),
+    path('community/<id>/dataType/<did>', views.getDataTypeRender, name="searchPost"),
     path('newCommunity/', views.newCommunity, name='index'),
     path('eleman', views.newDataType),
     path('deactivateCommunity', views.deactivateCommunity),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('community/post/<id>', views.getPost, name="newPost"),
     path('login', views.my_login),
     path('signup', views.my_signup),
+    path('getPostsOfDataType', views.getPostsOfDataType),
     path("checkuser", views.check_username),
     path("savefile", views.save_files),
     path('post/<id>', views.getPost, name="postDetail"),

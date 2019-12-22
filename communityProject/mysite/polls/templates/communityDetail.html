@@ -72,7 +72,7 @@
 <main>
     <div class="container newCommunity">
         <div id="get_success"
-                 style="position: fixed; background: rgba(0,0,0,1); width: 500px; left: 50%; padding: 50px; margin: 0px 0px 0px -250px; top: 120px; z-index: 2000; text-align: center; display: none;"></div>
+             style="position: fixed; background: rgba(0,0,0,1); width: 500px; left: 50%; padding: 50px; margin: 0px 0px 0px -250px; top: 120px; z-index: 2000; text-align: center; display: none;"></div>
 
         <div class="row">
             <div id="cmnHeaderDiv" class="col-sm-10">
@@ -90,7 +90,8 @@
                         data-toggle="modal" data-target="#confirmDeactivation" title="Deactive this community!"><i
                         class="fa fa-trash trashBtn"></i></button>
                 <a>|</a>
-                <button id="joinBtn" class="btn miniBtn" onclick="joinCommunity();" title="Join us!"><i class="fa fa-user-plus joinBtn"></i>
+                <button id="joinBtn" class="btn miniBtn" onclick="joinCommunity();" title="Join us!"><i
+                        class="fa fa-user-plus joinBtn"></i>
                 </button>
             </div>
         </div>
@@ -263,17 +264,27 @@
                                             <p class="card-text">{{ DataTypes.data_type_desc }}</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                            style="margin: 2px;">
                                                         <a href="{{ DataTypes.community_id }}/{{ DataTypes.id }}/newPost"
                                                            class="btnCommView">
                                                             Create Post!
                                                         </a>
                                                     </button>
+
                                                     <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                            style="margin: 2px;"
                                                             onclick="editDataType({{ DataTypes.id }});">
                                                         <a class="btnCommView" data-toggle="modal"
                                                            data-target=".bd-example-modal-lg">
                                                             Edit
+                                                        </a>
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                            style="margin: 2px;"
+                                                            onclick="searchPost();">
+                                                        <a class="btnCommView" href="{{ DataTypes.community_id }}/dataType/{{ DataTypes.id }}">
+                                                            Search Post
                                                         </a>
                                                     </button>
                                                 </div>

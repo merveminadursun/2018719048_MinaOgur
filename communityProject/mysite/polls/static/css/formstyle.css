@@ -51,6 +51,13 @@ h2, h3 {
     border: black thin solid;
 }
 
+.searchFields {
+    margin-left: 20px;
+    margin-right: 20px;
+    border: inherit;
+}
+
+
 .mymodalinner {
     margin-left: 20px;
     margin-right: 20px;

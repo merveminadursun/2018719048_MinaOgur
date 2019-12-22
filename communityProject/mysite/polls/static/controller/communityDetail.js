@@ -27,7 +27,7 @@ function onLoad() {
             addUnsubscribeBtn();
 
         }else {
-            alert("you are not follower");
+            // alert("you are not follower");
         }
 
     }

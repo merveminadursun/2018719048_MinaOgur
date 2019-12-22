@@ -14,6 +14,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.models import User
 from django.conf import settings
 
+
 class LazyEncoder(DjangoJSONEncoder):
     def default(self, obj):
         if isinstance(obj, 'json'):
@@ -30,7 +31,6 @@ def index(request):
 
 @csrf_exempt
 def my_signup(request):
-
     # At this point, user is a User object that has already been saved
     # to the database. You can continue to change its attributes
     # if you want to change other fields.
@@ -42,7 +42,7 @@ def my_signup(request):
     role = UserRole(id=3)  # default user role should be 3 = default user role
     usr.role = role
     usr.save()
-    User.objects.create_user(usr.username , usr.email, usr.password)
+    User.objects.create_user(usr.username, usr.email, usr.password)
     user = authenticate(username=usr.username, password=usr.password)
     # login(request, user)
     if user is not None:
@@ -51,7 +51,6 @@ def my_signup(request):
     else:
         return HttpResponseNotFound("user is not none")
     # return HttpResponse(usr.pk)
-
 
 
 # Begin Of Login + Register
@@ -77,8 +76,10 @@ def my_login(request):
         else:
             return HttpResponseNotFound("user is not none")
 
+
 def my_logout(request):
     logout(request)
+
 
 @csrf_exempt
 def check_username(request):
@@ -124,7 +125,7 @@ def newCommunity(request):
         cmn_tag.tag_info = tagsJson
         cmn_tag.save()
 
-        #Generic Data Type creation
+        # Generic Data Type creation
         dt = DataType()
         dt.community = Community.objects.get(pk=cmn.id)
         dt.data_type_name = "Generic Post"
@@ -143,7 +144,7 @@ def newDataType(request):
         isUpdate = request.POST.get('isUpdate')
         fieldJson = request.POST.get('fieldJson')
         communityId = request.POST.get("communityId", "")
-        if ( isUpdate == "" ):
+        if (isUpdate == ""):
             dt = DataType()
             dt.community = Community.objects.get(pk=communityId)
             dt.data_type_name = request.POST.get("dt_name", "")
@@ -230,6 +231,7 @@ def updatePost(request):
 
     return HttpResponse(request)
 
+
 def getPost(request, id):
     # print(id)
     postDetail = get_object_or_404(Post, pk=id)
@@ -242,14 +244,15 @@ def getPost(request, id):
     print(postDetail.__getattribute__("post_data"))
     # postFields = json.loads(postDetail.__getattribute__("post_data"))
     # postFields = json.loads(tmpObj)
-    tmpObj = serializers.serialize("json", CommunityTag.objects.filter(community_id=communityInfo, post=id).only("tag_info"))
+    tmpObj = serializers.serialize("json",
+                                   CommunityTag.objects.filter(community_id=communityInfo, post=id).only("tag_info"))
     postTags = json.loads(tmpObj)
     print(postTags)
     return render(request, "postDetail.html", {"postDetail": postDetail,
-                                               "postFields" : postDetail.__getattribute__("post_data"),
+                                               "postFields": postDetail.__getattribute__("post_data"),
                                                "communityInfo": communityInfo,
                                                "dataTypeInfo": dataTypeInfo,
-                                               "postTags": postTags })
+                                               "postTags": postTags})
 
 
 def getCommunity(request, id):
@@ -265,6 +268,7 @@ def getCommunity(request, id):
                                                     "communityTags": communityTags,
                                                     "communityPosts": communityPosts})
 
+
 def getDataType(request):
     dt_id = request.GET.get("dt_id", "")
     # print("///////////" + dt_id)
@@ -272,6 +276,23 @@ def getDataType(request):
     communityDataTypes = list(DataType.objects.filter(pk=dt_id).values())
     # a = serializers.serialize("json", communityDataTypes)
     return JsonResponse(communityDataTypes, safe=False)
+
+
+def getDataTypeRender(request, id, did):
+    communityDataTypes = list(DataType.objects.filter(id=did).values())
+    return render(request, "searchPost.html", {"communityDataTypes": communityDataTypes})
+
+
+def getPostsOfDataType(request):
+    dt_id = request.GET.get("dt_id", "")
+    cmn_id = request.GET.get("cmn_id", "")
+    posts = list(Post.objects.filter(data_type=dt_id).values())
+    tmpObj = serializers.serialize("json",
+                                   CommunityTag.objects.filter(community_id=cmn_id).exclude(post=0))
+    postTags = json.loads(tmpObj)
+    response = { "posts": posts, "postTags": postTags }
+    return JsonResponse(response, safe=False)
+
 
 def getCommunityMembers(request, url):
     data = list(CommunityService.getCommunityMembers(url))
@@ -294,6 +315,7 @@ def tags(request):
     data = WikidataService.query(query)
     return JsonResponse(data, safe=False)
 
+
 @csrf_exempt
 def save_files(request):
     #  Saving POST'ed file to storage
@@ -301,7 +323,7 @@ def save_files(request):
     file_name = default_storage.save(file.name, file)
     #  Reading file from storage
     # file_url = settings.MEDIA_URL + default_storage.url(file_name) #use file_url for reading
-    file_url = settings.MEDIA_URL + file_name #use file_url for reading
+    file_url = settings.MEDIA_URL + file_name  # use file_url for reading
     print("/////////////////////////////////////////")
     print(file_url)
     print(default_storage.url(file_name))
@@ -322,7 +344,7 @@ def join_community(request):
 def unsubscribeFromCmn(request):
     communityId = Community.objects.get(id=request.POST.get("communityId", ""))
     followerId = MyUser.objects.get(id=request.POST.get("followerId", ""))
-    cmn_flw = CommunityFollower.objects.get(community = communityId, follower=followerId)
+    cmn_flw = CommunityFollower.objects.get(community=communityId, follower=followerId)
     cmn_flw.delete()
     return JsonResponse(communityId.id, safe=False)
 
