@@ -99,13 +99,13 @@
                         </th>
                         <td>
                             <select class="mdb-select md-form floatLabel_dt" name="dt_searchOps"
-                                    onchange="onSelectFType()" id="dt_searchOps">
+                                    id="dt_searchOps">
                                 <option value="" disabled selected>Choose your option</option>
                                 <option value="EQ">Equals To</option>
-                                <option value="GT">Greater Than</option>
-                                <option value="GE">Greater or Equals To</option>
-                                <option value="LT">Less Than</option>
-                                <option value="LE">Less Than or Equals To</option>
+{#                                <option value="GT">Greater Than</option>#}
+{#                                <option value="GE">Greater or Equals To</option>#}
+{#                                <option value="LT">Less Than</option>#}
+{#                                <option value="LE">Less Than or Equals To</option>#}
                                 <option value="CS">Contains String</option>
                             </select>
                         </td>
@@ -132,6 +132,19 @@
             </div>
 
         </div>
+
+        {#  Begin of Post      #}
+
+        <div id="posts" class="tab-pane">
+            <div class="container features">
+                <div class="row" id="postRows">
+
+                </div>
+            </div>
+        </div>
+        {#  End of Post      #}
+
+
     </div>
 
 

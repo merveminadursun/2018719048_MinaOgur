@@ -1,5 +1,6 @@
 var fieldList = [];
 
+var filterArray = [];
 
 function onLoad() {
     console.log(communityDataTypes);
@@ -32,9 +33,31 @@ function removeSearchField(oEvent) {
 }
 
 function searchPost() {
+    document.getElementById("postRows").innerHTML = "";
+    filterArray = [];
+    var oFilter = {
+        "filterField": "",
+        "filterOperation": "",
+        "filterValue": ""
+    }
+    var table = document.getElementById('myTable');
+    var tableRows = document.getElementById('myTable').rows.length;
+
+    for (var i = 1; i < tableRows; i++) {
+
+        var oFilter = {
+            "filterField": table.rows[i].cells[0].children[0].value,
+            "filterOperation": table.rows[i].cells[1].children[0].value,
+            "filterValue": table.rows[i].cells[2].children[0].value
+        }
+        filterArray.push(oFilter);
+    }
+    console.log(filterArray);
+
+
     jQuery.ajax({
         type: "GET", url: "/getPostsOfDataType",
-        data: {"dt_id": communityDataTypes[0].id, "cmn_id": communityDataTypes[0].community_id },
+        data: {"dt_id": communityDataTypes[0].id, "cmn_id": communityDataTypes[0].community_id},
         async: false,
         success:
             function (result) {
@@ -57,5 +80,81 @@ function searchPost() {
 }
 
 function filterPosts(postList, postTags) {
-    // postList.
+    var filtered_posts = postList.filter(function (i) {
+
+        var postFields = JSON.parse(i.post_data).theFields;
+
+        for (var j = 0; j < filterArray.length; j++) {
+            switch (filterArray[j].filterField) {
+                case "pn":
+                    if (filterArray[j].filterOperation === 'CS') {
+                        return i.post_name.toLowerCase().includes(filterArray[j].filterValue.toLowerCase());
+                    } else {
+                        if (filterArray[j].filterOperation === 'EQ') {
+                            return i.post_name.toLowerCase() === filterArray[j].filterValue.toLowerCase();
+                        } else return true;
+                    }
+                    break;
+                case "pd":
+                    if (filterArray[j].filterOperation === 'CS') {
+                        return i.post_desc.includes(filterArray[j].filterValue);
+                    } else {
+                        if (filterArray[j].filterOperation === 'EQ') {
+                            return i.post_desc = filterArray[j].filterValue;
+                        } else return true;
+                    }
+                    break;
+                case "st":
+                    break;
+                default:
+                    var newfilteredFlds = postFields.filter(function (el) {
+                        if (el.fieldposnr === filterArray[j].filterField) {
+                            if (el.fieldtype !== "EN") {
+                                return el.fieldvalue.includes(filterArray[j].filterValue);
+                            }
+                        }
+                    });
+                    postFields = newfilteredFlds;
+                    return (postFields.length > 0);
+                    break;
+            }
+        }
+    });
+
+    console.log(filtered_posts);
+
+    addPostTiles(filtered_posts);
+}
+
+function addPostTiles(postList) {
+
+    for (var i = 0; i < postList.length; i++) {
+        var colDiv = document.createElement("div");
+        colDiv.setAttribute("class", "col-md-4");
+
+        var cardDiv = document.createElement("div");
+        cardDiv.setAttribute("class", "card mb-4 shadow-sm");
+
+        var bodyDiv = document.createElement("div");
+        bodyDiv.setAttribute("class", "card-body");
+
+        var postH1 = document.createElement("h1");
+        postH1.setAttribute("class", "commHeader");
+        var header = document.createTextNode(postList[i].post_name);
+        postH1.appendChild(header);
+
+        var postH2 = document.createElement("p");
+        postH2.setAttribute("class", "card-text");
+        var desc = document.createTextNode(postList[i].post_desc);
+        postH2.appendChild(desc);
+
+        bodyDiv.appendChild(postH1);
+        bodyDiv.appendChild(postH2);
+        cardDiv.appendChild(bodyDiv);
+        colDiv.appendChild(cardDiv);
+
+        document.getElementById("postRows").appendChild(colDiv);
+
+    }
+
 }
