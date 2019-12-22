@@ -21,6 +21,15 @@ function onLoad() {
                 }
             }
         }
+    } else {
+        //    check whether user joined.
+        if (isMember(document.getElementById("userId").value) === true ){
+            addUnsubscribeBtn();
+
+        }else {
+            alert("you are not follower");
+        }
+
     }
 
 
@@ -407,8 +416,6 @@ function joinCommunity() {
 }
 
 function addUnsubscribeBtn() {
-
-
     var cmnOperations = document.getElementById("cmnOperations").childNodes;
     for (var i = 0; i < cmnOperations.length; i++) {
         if (cmnOperations[i].nodeName.includes("BUTTON")) {
@@ -422,17 +429,15 @@ function addUnsubscribeBtn() {
                 var innerBtn = document.createElement("i");
                 innerBtn.setAttribute("class", "fa fa-user-times joinBtn");
                 btn.setAttribute("title", "Unsubscribe");
-                btn.onclick = function (){
+                btn.onclick = function () {
                     unsubscribeFromCmn();
                 }
 
                 btn.appendChild(innerBtn);
                 document.getElementById("cmnOperations").appendChild(btn);
-
             }
         }
     }
-    
 }
 
 function showsuccess(msg) {
@@ -444,10 +449,88 @@ function showsuccess(msg) {
 function successpopupclear() {
     document.getElementById('get_success').style.display = 'none';
     document.getElementById('get_success').innerHTML = '';
-    cancelEdit();
+
 }
 
 function unsubscribeFromCmn() {
-    alert("hello");
+    // alert("hello");
 
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    var aarr = window.location.href.split('/');
+    //get last value
+    communityId = aarr[aarr.length - 1];
+    jQuery.ajax({
+        type: "POST", url: "/unsubscribeFromCmn",
+        data: {"communityId": communityId, "followerId": document.getElementById("userId").value},
+        success:
+            function (result) {
+                console.log(result);
+                // $('#confirmDeactivation').modal('hide');
+                // window.location.href = "/";
+                showsuccess("Good Bye! You unsubcribe from " + document.getElementById("cmnName").value + " community.");
+                addJoinBtn();
+            }
+    });
+}
+
+function addJoinBtn() {
+    var cmnOperations = document.getElementById("cmnOperations").childNodes;
+    for (var i = 0; i < cmnOperations.length; i++) {
+        if (cmnOperations[i].nodeName.includes("BUTTON")) {
+            if (cmnOperations[i].getAttribute("id") === "unsubscribeBtn") {
+                document.getElementById("cmnOperations").removeChild(cmnOperations[i]);
+
+                var btn = document.createElement("button");
+                btn.id = "joinBtn";
+                btn.setAttribute("class", "btn miniBtn");
+
+                var innerBtn = document.createElement("i");
+                innerBtn.setAttribute("class", "fa fa-user-plus joinBtn");
+                btn.setAttribute("title", "Join us!");
+                btn.onclick = function () {
+                    joinCommunity();
+                }
+
+                btn.appendChild(innerBtn);
+                document.getElementById("cmnOperations").appendChild(btn);
+            }
+        }
+    }
+}
+
+
+function isMember(oLoginUser) {
+    var aarr = window.location.href.split('/');
+    //get last value
+
+    var oRet = false;
+    communityId = aarr[aarr.length - 1];
+    jQuery.ajax({
+        type: "GET", url: "/checkUserIsFollower",
+        data: {"communityId": communityId, "followerId": oLoginUser},
+        async: false,
+        success:
+            function (result) {
+                console.log(result);
+                oRet = true;
+            },
+        error:
+            function (returnVal) {
+                console.log(returnVal);
+                if(returnVal.status === 404) {
+                    oRet = false;
+                }
+
+            }
+    });
+
+    return oRet;
 }

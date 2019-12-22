@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2671578-260c-43b2-85ec-911b1631493b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/static/controller/communityDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/templates/communityDetail.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/polls/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/polls/views.py" afterDir="false" />
     </list>
@@ -39,12 +37,12 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.django.DjangoModulesConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\VKT-MINAD\Desktop\SWE\SWE573\SWE573_2018719048_MinaOgur\communityProject\mysite\polls\templates" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\VKT-MINAD\Desktop\SWE\SWE573\SWE573_2018719048_MinaOgur\communityProject\mysite\polls\static\css" />
       <recent name="C:\Users\VKT-MINAD\Desktop\SWE\SWE573\SWE573_2018719048_MinaOgur\communityProject\mysite\polls\static" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\VKT-MINAD\Desktop\SWE\SWE573\SWE573_2018719048_MinaOgur\communityProject\mysite\polls\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -128,7 +126,7 @@
       <workItem from="1576356879577" duration="3018000" />
       <workItem from="1576401526390" duration="21166000" />
       <workItem from="1576481831889" duration="29403000" />
-      <workItem from="1577005760980" duration="5430000" />
+      <workItem from="1577005760980" duration="8170000" />
     </task>
     <servers />
   </component>

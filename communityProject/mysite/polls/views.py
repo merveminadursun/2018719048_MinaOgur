@@ -316,3 +316,20 @@ def join_community(request):
     cmn_flw.approved = True;
     cmn_flw.save()
     return JsonResponse(cmn_flw.id, safe=False)
+
+
+@csrf_exempt
+def unsubscribeFromCmn(request):
+    communityId = Community.objects.get(id=request.POST.get("communityId", ""))
+    followerId = MyUser.objects.get(id=request.POST.get("followerId", ""))
+    cmn_flw = CommunityFollower.objects.get(community = communityId, follower=followerId)
+    cmn_flw.delete()
+    return JsonResponse(communityId.id, safe=False)
+
+
+@csrf_exempt
+def checkUserIsFollower(request):
+    communityId = Community.objects.get(id=request.GET.get("communityId"))
+    followerId = MyUser.objects.get(id=request.GET.get("followerId"))
+    cmn_flw = get_object_or_404(CommunityFollower, community=communityId, follower=followerId)
+    return JsonResponse(communityId.id, safe=False)
