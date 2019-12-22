@@ -148,9 +148,32 @@ function addPostTiles(postList) {
         var desc = document.createTextNode(postList[i].post_desc);
         postH2.appendChild(desc);
 
+        var cnt = document.createElement("div");
+        cnt.setAttribute("class", "d-flex justify-content-between align-items-center");
+
+
+        var btngrp = document.createElement("div");
+        btngrp.setAttribute("class", "btn-group");
+
+        var btn = document.createElement("button");
+        btn.setAttribute("type", "button");
+        btn.setAttribute("class", "btn btn-sm btn-outline-secondary");
+
+        var adiv = document.createElement("a");
+        adiv.setAttribute("class", "btnCommView")
+        var link = "/community/post/" + postList[i].id;
+        adiv.setAttribute("href", link)
+        var txt = document.createTextNode("View");
+        adiv.appendChild(txt);
+        btn.appendChild(adiv);
+
+        btngrp.appendChild(btn);
+        cnt.appendChild(btngrp);
+
         bodyDiv.appendChild(postH1);
         bodyDiv.appendChild(postH2);
         cardDiv.appendChild(bodyDiv);
+        cardDiv.appendChild(cnt);
         colDiv.appendChild(cardDiv);
 
         document.getElementById("postRows").appendChild(colDiv);
@@ -158,3 +181,16 @@ function addPostTiles(postList) {
     }
 
 }
+
+
+
+// <div class="d-flex justify-content-between align-items-center">
+//                                     <div class="btn-group">
+//                                         <button type="button" class="btn btn-sm btn-outline-secondary">
+//                                             <a href="community/{{ Community.id }}" class="btnCommView">
+//                                                 View
+//                                             </a>
+//                                         </button>
+//                                     </div>
+//                                     <small class="text-muted">{{ Community.create_date }}</small>
+//                                 </div>
