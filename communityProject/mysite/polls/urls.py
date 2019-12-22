@@ -9,6 +9,7 @@ urlpatterns = [
     path('newCommunity/', views.newCommunity, name='index'),
     path('eleman', views.newDataType),
     path('deactivateCommunity', views.deactivateCommunity),
+    path('joinCommunity', views.join_community),
     path('community/<cmn_id>/<dt_id>/newPost', views.newPost, name="newPost"),
     path('createNewPost', views.createNewPost),
     path('updatePost', views.updatePost),

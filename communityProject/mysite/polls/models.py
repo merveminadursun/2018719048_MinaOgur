@@ -57,6 +57,9 @@ class Community(models.Model):
         return self.create_date >= timezone.now() - datetime.timedelta(days=1)
 
 class CommunityFollower(models.Model):
+    class Meta:
+        unique_together = [["community", "follower"]]
+
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
     follower = models.ForeignKey(MyUser, default="", on_delete=models.CASCADE)
     approved = models.BooleanField(default=True)

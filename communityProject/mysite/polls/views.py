@@ -306,3 +306,13 @@ def save_files(request):
     print(file_url)
     print(default_storage.url(file_name))
     return JsonResponse(file_url, safe=False)
+
+
+@csrf_exempt
+def join_community(request):
+    cmn_flw = CommunityFollower();
+    cmn_flw.community = Community.objects.get(id=request.POST.get("communityId", ""))
+    cmn_flw.follower = MyUser.objects.get(id=request.POST.get("followerId", ""))
+    cmn_flw.approved = True;
+    cmn_flw.save()
+    return JsonResponse(cmn_flw.id, safe=False)

@@ -1,4 +1,29 @@
 function onLoad() {
+
+
+    if (document.getElementById("userId").value === document.getElementById("cmnOwner").value) {
+        var cmnOperations = document.getElementById("cmnOperations").childNodes;
+        for (var i = 0; i < cmnOperations.length; i++) {
+            if (cmnOperations[i].nodeName.includes("BUTTON")) {
+                if (cmnOperations[i].getAttribute("id") === "joinBtn") {
+                    document.getElementById("cmnOperations").removeChild(cmnOperations[i]);
+
+                    var btn = document.createElement("button");
+                    btn.id = "editCmnBtn";
+                    btn.setAttribute("class", "btn miniBtn");
+
+                    var innerBtn = document.createElement("i");
+                    innerBtn.setAttribute("class", "fa fa-edit joinBtn");
+
+                    btn.appendChild(innerBtn);
+                    document.getElementById("cmnOperations").appendChild(btn);
+
+                }
+            }
+        }
+    }
+
+
     $("#isUpdate").val("");
     console.log(communityTags);
     if (communityTags.length > 0) {
@@ -349,4 +374,80 @@ function addDataTypeFields(oFormFields) {
 
 function cancelDataType() {
     $("#isUpdate").val("");
+}
+
+function joinCommunity() {
+
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+    var aarr = window.location.href.split('/');
+    //get last value
+    communityId = aarr[aarr.length - 1];
+    jQuery.ajax({
+        type: "POST", url: "/joinCommunity",
+        data: {"communityId": communityId, "followerId": document.getElementById("userId").value},
+        success:
+            function (result) {
+                console.log(result);
+                // $('#confirmDeactivation').modal('hide');
+                // window.location.href = "/";
+                showsuccess("Welcome to " + document.getElementById("cmnName").value + " community!");
+                addUnsubscribeBtn();
+            }
+    });
+
+
+}
+
+function addUnsubscribeBtn() {
+
+
+    var cmnOperations = document.getElementById("cmnOperations").childNodes;
+    for (var i = 0; i < cmnOperations.length; i++) {
+        if (cmnOperations[i].nodeName.includes("BUTTON")) {
+            if (cmnOperations[i].getAttribute("id") === "joinBtn") {
+                document.getElementById("cmnOperations").removeChild(cmnOperations[i]);
+
+                var btn = document.createElement("button");
+                btn.id = "unsubscribeBtn";
+                btn.setAttribute("class", "btn miniBtn");
+
+                var innerBtn = document.createElement("i");
+                innerBtn.setAttribute("class", "fa fa-user-times joinBtn");
+                btn.setAttribute("title", "Unsubscribe");
+                btn.onclick = function (){
+                    unsubscribeFromCmn();
+                }
+
+                btn.appendChild(innerBtn);
+                document.getElementById("cmnOperations").appendChild(btn);
+
+            }
+        }
+    }
+    
+}
+
+function showsuccess(msg) {
+    document.getElementById('get_success').style.display = 'block';
+    document.getElementById('get_success').innerHTML = '<div style="font-size: 23px; color:#cccccc; margin: 0px 0px 30px 0px;">' + msg + '</div><div style=""><span onclick="successpopupclear();" class="buttonflat flatgrey">OK</span></div>';
+}
+
+
+function successpopupclear() {
+    document.getElementById('get_success').style.display = 'none';
+    document.getElementById('get_success').innerHTML = '';
+    cancelEdit();
+}
+
+function unsubscribeFromCmn() {
+    alert("hello");
+
 }
