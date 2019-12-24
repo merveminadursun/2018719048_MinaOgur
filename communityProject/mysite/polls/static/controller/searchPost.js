@@ -97,10 +97,10 @@ function filterPosts(postList, postTags) {
                     break;
                 case "pd":
                     if (filterArray[j].filterOperation === 'CS') {
-                        return i.post_desc.includes(filterArray[j].filterValue);
+                        return i.post_desc.toLowerCase().includes(filterArray[j].filterValue.toLowerCase());
                     } else {
                         if (filterArray[j].filterOperation === 'EQ') {
-                            return i.post_desc = filterArray[j].filterValue;
+                            return i.post_desc.toLowerCase() == filterArray[j].filterValue.toLowerCase();
                         } else return true;
                     }
                     break;
@@ -110,7 +110,7 @@ function filterPosts(postList, postTags) {
                     var newfilteredFlds = postFields.filter(function (el) {
                         if (el.fieldposnr === filterArray[j].filterField) {
                             if (el.fieldtype !== "EN") {
-                                return el.fieldvalue.includes(filterArray[j].filterValue);
+                                return el.fieldvalue.toLowerCase().includes(filterArray[j].filterValue.toLowerCase());
                             }
                         }
                     });
