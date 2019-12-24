@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from enum import Enum
 from django.forms import ModelForm
+from django.contrib.postgres.fields import JSONField
 
 # Create your models here.
 
@@ -10,41 +11,41 @@ class UserRole(models.Model):
     roledesc = models.CharField(max_length=20)
 
     def __str__(self):
-        return "%s" %(self.roledesc)
+        return "%s" % (self.roledesc)
 
-class Gender(Enum):   # A subclass of Enum
+class Gender(Enum):  # A subclass of Enum
     F = "Female"
     M = "Male"
-
     @classmethod
     def all(self):
         return [Gender.F, Gender.M]
 
-
-class User(models.Model):
+class MyUser(models.Model):
     username = models.CharField(max_length=20)
     first_name = models.CharField(max_length=50, default="")
     last_name = models.CharField(max_length=50, default="")
-    role = models.ForeignKey(UserRole,  on_delete=models.CASCADE)
+    role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
     location = models.CharField(max_length=140)
-    gender = models.CharField(max_length=1, choices=[(tag.name, tag.value) for tag in Gender] )
+    gender = models.CharField(max_length=1, choices=[(tag.name, tag.value) for tag in Gender])
     password = models.CharField(max_length=20)
     email = models.CharField(max_length=100)
-    profile_picture = models.ImageField(upload_to='thumbpath', blank=True)
+    profile_picture = models.ImageField(upload_to='profile_pics', blank=True)
+
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
 
-class UserForm(ModelForm):
-    class Meta:
-        model = User
-        fields = '__all__'
+# class UserForm(ModelForm):
+#     class Meta:
+#         model = MyUser
+#         fields = '__all__'
+
 
 class Community(models.Model):
     community_name = models.CharField(max_length=100)
     community_desc = models.CharField(max_length=200)
     create_date = models.DateTimeField('date published')
-    owner = models.ForeignKey(User, default="", on_delete=models.CASCADE)
+    owner = models.ForeignKey(MyUser, default="", on_delete=models.CASCADE)
     join_allowed = models.BooleanField(default=False)  # allow joining to community
     newdt_allowed = models.BooleanField(default=False)  # allow creating data types
     active = models.BooleanField(default=True)
@@ -55,17 +56,23 @@ class Community(models.Model):
     def was_published_recently(self):
         return self.create_date >= timezone.now() - datetime.timedelta(days=1)
 
-
 class CommunityFollower(models.Model):
+    class Meta:
+        unique_together = [["community", "follower"]]
+
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
-    follower = models.ForeignKey(User, default="", on_delete=models.CASCADE)
+    follower = models.ForeignKey(MyUser, default="", on_delete=models.CASCADE)
     approved = models.BooleanField(default=True)
     # If a user wants to join a community, if Community.join_allowed equals to false
     # firstly owner of the community should approve this join request.
 
+
 class CommunityTag(models.Model):
     tag_desc = models.CharField(max_length=100)
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+    post = models.IntegerField()
+    tag_info = JSONField(default="")
+
 
 class FormField(models.Model):
     # Constants for generic string types
@@ -104,15 +111,27 @@ class DataType(models.Model):
     data_type_name = models.CharField(max_length=100)
     data_type_desc = models.TextField(default="")
     community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, default="", on_delete=models.CASCADE)
+    owner = models.ForeignKey(MyUser, default="", on_delete=models.CASCADE)
     fields = models.ManyToManyField(FormField)
     # todo filter form fields based on data type's community.
+    formfields = JSONField(default="")
+
     def __str__(self):
         return self.data_type_name
 
+class Post(models.Model):
+    community = models.ForeignKey(Community, default="", on_delete=models.CASCADE)
+    data_type = models.ForeignKey(DataType, default="", on_delete=models.CASCADE)
+    post_name = models.CharField(max_length=100)
+    post_desc = models.TextField(default="")
+    owner     = models.ForeignKey(MyUser, default="", on_delete=models.CASCADE)
+    create_date = models.DateTimeField('date published')
+    post_data   = JSONField(default="")
+
 class UserBuilderRequest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     approved = models.BooleanField(default=False)
     # If a user want to be a community builder,
     # admin approval is needed.
+
 
